@@ -1,0 +1,16 @@
+{
+  "name": "media-site",
+  "version": 1,
+  "build": {
+    "env": {
+      "MONGODB_URI": "",
+      "CLOUDINARY_URL": "",
+      "DB_NAME": "",
+      "SENDGRID_API_KEY": "",
+      "EMAIL_FROM": "",
+      "WEB_URI": "",
+      "SESSION_SECRET": "",
+      "USING_SECRETS": "add these to as secrets when deployed to vercel"
+    }
+  }
+}

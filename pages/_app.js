@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import theme from '../theme';
+import { darkTheme, midTheme, lightTheme } from '../components/theme';
+import Layout from '../components/Layout';
 
 export default function MyApp(props) {
+  // The Component prop is the active page
+  // pageProps iare the initial props that were preloaded for your page
   const { Component, pageProps } = props;
 
   React.useEffect(() => {
@@ -19,13 +22,15 @@ export default function MyApp(props) {
   return (
     <React.Fragment>
       <Head>
-        <title>My page</title>
+        <title>Media Site</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={darkTheme}>
+        <Layout>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <Component {...pageProps} />
+        </Layout>
       </ThemeProvider>
     </React.Fragment>
   );
