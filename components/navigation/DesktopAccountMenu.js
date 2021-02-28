@@ -9,7 +9,6 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
-    marginRight: theme.spacing(1),
     marginTop: theme.spacing(1),
 },
   menuItem: {
@@ -61,11 +60,11 @@ export default function DesktopAccountMenu() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-        <MenuItem className={classes.menuItem} onClick={handleAppearenceMenuOpen}><VpnKeyIcon className={classes.menuIcon} />Login</MenuItem>
+        <MenuItem className={classes.menuItem} onClick={handleMenuClose}><VpnKeyIcon className={classes.menuIcon} />Login</MenuItem>
 
         <MenuItem className={classes.menuItem} onClick={handleAppearenceMenuOpen}><Brightness4Icon className={classes.menuIcon} /> Appearance: Dark</MenuItem>
 
-        <MenuItem className={classes.menuItem} onClick={handleAppearenceMenuOpen}><AccountBoxIcon className={classes.menuIcon} /> Sign Up</MenuItem>
+        <MenuItem className={classes.menuItem} onClick={handleMenuClose}><AccountBoxIcon className={classes.menuIcon} /> Sign Up</MenuItem>
         </Menu>
 
   )
