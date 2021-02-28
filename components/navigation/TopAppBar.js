@@ -81,7 +81,7 @@ export default function TopAppBar() {
   return (
 
     <div className={classes.grow}>
-      <AppBar position="static" className={classes.appBar} titleStyle={{verticalAlign:'middle'}}>
+      <AppBar position="static" className={classes.appBar} >
         {/* <MenuDrawer /> */}
         <Toolbar className={classes.toolBar}>
           <IconButton

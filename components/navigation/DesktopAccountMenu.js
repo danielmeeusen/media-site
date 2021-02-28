@@ -2,14 +2,24 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu, MenuItem, Badge, IconButton } from '@material-ui/core';
 
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
-    marginLeft: theme.spacing(1),
-    marginTop: theme.spacing(.5),
+    marginRight: theme.spacing(1),
+    marginTop: theme.spacing(1),
 },
+  menuItem: {
+    marginRight: theme.spacing(8),
+    marginLeft: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  menuIcon: {
+    marginRight: theme.spacing(1),
+  },
 }));
 
 export default function DesktopAccountMenu() {
@@ -51,10 +61,13 @@ export default function DesktopAccountMenu() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleAppearenceMenuOpen}>Appearance: Dark</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
-    </Menu>
+        <MenuItem className={classes.menuItem} onClick={handleAppearenceMenuOpen}><VpnKeyIcon className={classes.menuIcon} />Login</MenuItem>
+
+        <MenuItem className={classes.menuItem} onClick={handleAppearenceMenuOpen}><Brightness4Icon className={classes.menuIcon} /> Appearance: Dark</MenuItem>
+
+        <MenuItem className={classes.menuItem} onClick={handleAppearenceMenuOpen}><AccountBoxIcon className={classes.menuIcon} /> Sign Up</MenuItem>
+        </Menu>
+
   )
 
   const renderAppearenceMenu = (
@@ -68,19 +81,14 @@ export default function DesktopAccountMenu() {
       open={isAppearenceMenuOpen}
       onClose={handleAppearenceMenuClose}
     >
-      <MenuItem onClick={handleAppearenceMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleAppearenceMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleAppearenceMenuClose}>My account</MenuItem>
+      <MenuItem className={classes.menuItem} onClick={handleAppearenceMenuClose}>Dark Theme</MenuItem>
+      <MenuItem className={classes.menuItem} onClick={handleAppearenceMenuClose}>Midium Theme</MenuItem>
+      <MenuItem className={classes.menuItem} onClick={handleAppearenceMenuClose}>Light Light</MenuItem>
     </Menu>
   )
 
   return (
     <React.Fragment>
-      <IconButton aria-label="show 17 new notifications" color="inherit" className={classes.icon}>
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
       <IconButton className={classes.icon}
               edge="end"
               aria-label="account of current user"

@@ -11,9 +11,6 @@ export default function Layout({ children }) {
     <TopAppBar/>
     <Container maxWidth="sm">
       <Box my={4}>
-      <Typography variant="h4" component="h1" align="center" >
-          Media Site
-        </Typography>
         <main>{children}</main>
         <Copyright />
       </Box>

@@ -10,6 +10,11 @@ export default function Index() {
   return (
     <Container maxWidth="md">
       <Box my={2} >
+      <Typography variant="h4" component="h1" align="center" >
+          Media Site
+        </Typography>
+        </Box>
+        <Box my={8}>
         <Typography align="center">
         <Link href="/about" color="secondary" >
           Go to the about page
