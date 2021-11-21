@@ -80,10 +80,6 @@ export default function Login() {
         Log In
       </Typography>
 
-      <Typography variant="body1">
-          If you were a member of the previous site please sign up for free and your membership will be transfered 😉 
-        </Typography>
-
       <Box style={{ marginTop: 10, marginBottom: 5 }} >
         {errorMsg ?
         <span style={{ color: "MediumVioletRed"}}>{errorMsg}</span>

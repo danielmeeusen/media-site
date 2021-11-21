@@ -4,8 +4,6 @@ import { useCurrentUser } from '@/lib/user/hooks';
 import PeopleList from './PeopleList';
 
 import { Drawer, Toolbar, List, Divider, ListItem, ListItemText, Typography, Collapse } from '@material-ui/core';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { FormatIndentIncreaseSharp } from '@material-ui/icons';
