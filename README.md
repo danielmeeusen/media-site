@@ -1,25 +1,40 @@
 ## Next.js Media Site
 
-A template for server side rendering video/photo sharing platform similar to Youtube.com with real world aplicability in mind.
+- A template for server/client side rendering video/photo sharing platform similar to Youtube.com.
 
 [Veiw demo on heroku](https://media-site.herokuapp.com/)
 
-## This project uses the following dependencies:
+## Dependencies:
 
-- `next.js` - v9.3 or above required for **API Routes** and new [**new data fetching method**](https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering).
-- `react` - v16.8 or above required for **react hooks**.
-- `react-dom` - v16.8 or above.
-- `swr` - required for state management, may be replaced with `react-query`
-- `mongodb` - may be replaced by `mongoose`.
-- `passport`, `passport-local` - required for authentication.
+- `@material-ui` - rapid component templating.
+- `react`, `react-dom` - v16.8 or higher required
+- `next` - v9.3 or above required for API Routes and data fetching.
 - `next-connect` - recommended if you want to use Express/Connect middleware and easier method routing.
-- `next-session`, `connect-mongo` - required for session, may be replaced with other session libraries such as `cookie-session`, `next-iron-session`, or `express-session` (`express-session` is observed not to work properly on Next.js 11+).
-- `bcryptjs` - optional, may be replaced with any password-hashing library. `argon2` recommended.
-- `validator` - optional but recommended, to validate email.
-- `ajv` - optional but recommended, to validate request body.
-- `multer` - may be replaced with any middleware that handles `multipart/form-data`
-- `cloudinary` - optional, **only if** you are using [Cloudinary](https://cloudinary.com) for image upload.
-- several other optional dependencies for cosmetic purposes.
-- `nodemailer` - optional, **only if** you use it for email. It is recommended to use 3rd party services like [Mailgun](https://www.mailgun.com/), [AWS SES](https://aws.amazon.com/ses/), etc. instead.
+- `passport`, `passport-local` - authenticaiton.
+- `bcryptjs` - password hashing.
+- `next-session` - user session provider.
+- `connect-mongo`, `express-session` - session functionality.
+- `swr` - state managment.
+- `mongodb` - database thorugh Atlas DB.
+- `mysql`, `serverless-mysql` - optional MySQL database support either in tandum or in place of MongoDB. 
+- `nodemailer` - email verification and password recovery. 
+- `validator` - email validation.
+- `ajv` - validating request bodies.
+- `cloudinary` - image upload.
+- `multer` -  may be replaced with any middleware that handles multipart/form-data
+- `geoip-lite`, `next-useragent`, `request-ip` - device and location tracking, used to protect account logins.
+- `isomorphic-unfetch` - single instance 3rd party data fetching.
 
+## Enviroment Variables
 
+- `WEB_URI` The URL of your web app.
+- `MONGODB_URI`- The MongoDB Connection String (with credentials and database name)
+- `NODEMAILER_CONFIG` JSON stringified nodemailer config. 
+- `EMAIL` address email will be sent from.
+- `CLOUDINARY_URL` Cloudinary environment variable for configuration.
+
+## Development
+Install by running `npm install` and run local develoment server with `npm run dev` after creating `.env.local` file.
+
+## Deployment
+Currently configured for both Vercel and Heroku depolyment. 
