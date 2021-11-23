@@ -8,7 +8,7 @@ export default function record() {
     <Container maxWidth="sm">
       <Box my={4} align="center">
         <Typography variant="h4" component="h1">
-          Privacy
+          Where you would put your privacy Policy
         </Typography>
         </Box>
     </Container>

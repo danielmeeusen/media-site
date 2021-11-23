@@ -22,7 +22,7 @@ export default function PeopleList({ filtername }) {
   const [open, setOpen] = useState(false);
   const { data } = useSWR(`/api/people`, fetcher);
   
-  data?.people.sort( (fi, si) => si.shoots.length - fi.shoots.length);
+  data?.people.sort( (fi, si) => si.media.length - fi.media.length);
 
   const handleClick = () => {
     setOpen(!open);
@@ -37,7 +37,7 @@ export default function PeopleList({ filtername }) {
       <List component="div" disablePadding dense>
 
         {data?.people.slice(0, 3).map(item => {
-          const text = `${item.name}  (${item.shoots.length})`
+          const text = `${item.name}  (${item.media.length})`
           return (
           <ListItem button key={item._id} className={classes.nested}>
             <ListItemText primary={text} />
@@ -48,7 +48,7 @@ export default function PeopleList({ filtername }) {
         <Collapse in={open} timeout="auto" unmountOnExit>
 
         {data?.people.slice(3).map(item => {
-          const text = `${item.name}  (${item.shoots.length})`
+          const text = `${item.name}  (${item.media.length})`
           return (
           <ListItem button key={item._id} className={classes.nested}>
             <ListItemText primary={text} />
