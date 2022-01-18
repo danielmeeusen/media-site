@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { Drawer } from '@material-ui/core';
 
-import { AppContext } from '../../../lib/AppContext';
+import { leftDeskMenuContext } from '../../../lib/AppContext';
 import { makeStyles } from '@material-ui/core/styles';
 
-import ContentMenu from '../ContentMenu';
+import ContentMenu from './ContentMenu';
 
 let drawerWidth = 240;
 
@@ -34,14 +34,9 @@ const useStyles = makeStyles((theme) => ({
   } 
 }));
 
-export default function MenuDrawer() {
+export default function LeftDeskDrawer() {
   const classes = useStyles();
-  const [ menuOpen, setMenuOpen ] = useContext(AppContext);
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  const [ leftDeskMenu, setLeftDeskMenu ] = useContext(leftDeskMenuContext);
 
   return (
     <div className={classes.root}>
@@ -49,7 +44,7 @@ export default function MenuDrawer() {
         className={classes.drawer}
         variant="persistent"
         anchor="left"
-        open={menuOpen}
+        open={leftDeskMenu}
         classes={{
           paper: classes.drawerPaper,
         }}

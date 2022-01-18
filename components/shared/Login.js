@@ -67,8 +67,8 @@ export default function Login() {
         <CssBaseline />        
       <Grid container justifyContent="flex-end">
         <Grid item>
-          <IconButton  onClick={() => Router.back()} >
-            <CloseIcon fontSize="large" />
+          <IconButton fontSize="large" onClick={() => Router.back()} >
+            <CloseIcon />
           </IconButton>
         </Grid>
       </Grid>
@@ -79,6 +79,10 @@ export default function Login() {
       <Typography component="h1" variant="h5" style={{ marginBottom: 10 }}>
         Log In
       </Typography>
+
+      <Typography variant="body1">
+          If you were a member of the previous site please sign up for free and your membership will be transfered 😉 
+        </Typography>
 
       <Box style={{ marginTop: 10, marginBottom: 5 }} >
         {errorMsg ?

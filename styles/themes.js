@@ -2,6 +2,23 @@ import { createTheme } from '@material-ui/core/styles';
 
 // Create a theme instance.
 export const darkTheme = createTheme({
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        '*::-webkit-scrollbar': {
+          width: '10px'
+        },
+        '*::-webkit-scrollbar-track': {
+          '-webkit-box-shadow': 'rgba(255, 255, 255, .15)',
+          borderRadius: '10px',
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: 'rgba(255, 255, 255, .15)',
+          borderRadius: '10px',
+    }
+  }
+}
+  },
   palette: {
     type: 'dark',
     background: {

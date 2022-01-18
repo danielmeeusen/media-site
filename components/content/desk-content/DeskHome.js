@@ -1,21 +1,57 @@
 import React, { useContext } from 'react';
-import {Typography, Box} from '@material-ui/core';
+import clsx from 'clsx';
+import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { leftDeskMenuContext } from '../../../lib/AppContext';
 
+// import {sql_query} from '../../middleware/mysqlDB.js';
+
+let drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  
+  content: {
+    flexGrow: 1,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: drawerWidth,
+  },
 }))
 
-export default function MobileContent() {
+// export async function getStaticProps(context) {
+//     try {
+//       const result = await sql_query(`
+//       SELECT test_member_id 
+//       WHERE test_username = 'testuser1'
+//       FROM TestUsers
+//       `);
+//     let userId = JSON.parse(JSON.stringify(result))
+//     return {
+//       props: {userId}
+//     };
+//   } catch (e) {
+//     return {props: {posts:false}}
+//   }
+// };
+
+export default function DeskContent(props) {
+  // const {userID} = props;
+  const [ leftDeskMenu, setLeftDeskMenu ] = useContext(leftDeskMenuContext);
 
   const classes = useStyles();
 
   return (
-    <React.Fragment>
-    <Box my={4}>      
+   <>
+    <Box my={2}>      
     <Typography variant="h4" align="center" >
-          Hipster Ipsum
+          Hipster Ipson
         </Typography>
         </Box>
 
@@ -42,6 +78,7 @@ export default function MobileContent() {
         <Typography variant="body1" align="center" paragraph>
         Dummy text? More like dummy thicc text, amirite?
         </Typography>
-        </React.Fragment>
+  </>
   );
 }
+

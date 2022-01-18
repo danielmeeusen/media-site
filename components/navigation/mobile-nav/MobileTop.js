@@ -1,12 +1,9 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, Button, IconButton } from '@material-ui/core';
-
+import React, { useContext, useEffect } from 'react';
 import Link from 'next/link';
-
-import { useCurrentUser } from '@/lib/user/hooks';
-
-
+import { makeStyles } from '@material-ui/core/styles';
+import { AppBar, Toolbar, Typography, Box } from '@material-ui/core';
+import { mobileHomeContext } from '../../../lib/AppContext';
+import { useSite } from '@/lib/site';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,21 +18,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar() {
   const classes = useStyles();
-  const [user, { mutate }] = useCurrentUser();
+  const [ mobileHome, setMobileHome ] = useContext(mobileHomeContext);
+  const site = useSite();
 
   return (
-    <div className={classes.root}>
-      <AppBar  elevation={0} position="static" className={classes.appBar}>
+    <Box display={ mobileHome.display } >
+      <AppBar elevation={0} position="sticky" className={classes.appBar}>
         <Toolbar>
           <span style={{ cursor: 'pointer', flexGrow: '1' }}>
           <Link href="/">
           <Typography  variant="h6" >
-            Site Name
+          {site?.sitename}
           </Typography>
           </Link>
           </span>
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   );
 }

@@ -7,12 +7,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 
-import MenuDrawer from './DeskDrawer';
-import { AppContext } from '../../../lib/AppContext';
+import LeftDeskDrawer from './LeftDeskDrawer';
+import { leftDeskMenuContext } from '../../../lib/AppContext';
 import { useCurrentUser } from '@/lib/user/hooks';
+import { useSite } from '@/lib/site';
 
-import AccountButton from '../AccountButton';
-import LoginButtons from '../LoginButtons';
+import AccountButton from './AccountButton';
+import LoginButtons from './LoginButtons';
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,11 +58,12 @@ export const useStyles = makeStyles((theme) => ({
 
 export default function TopAppBar(props) {
   const classes = useStyles();  
-  const [ menuOpen, setMenuOpen ] = useContext(AppContext);
+  const [ leftDeskMenu, setLeftDeskMenu ] = useContext(leftDeskMenuContext);
   const [user, { mutate }] = useCurrentUser();
+  const site = useSite();
   
   const handleMenu = () => {
-    setMenuOpen(!menuOpen);
+    setLeftDeskMenu(!leftDeskMenu);
   };
   
   return (
@@ -83,7 +85,7 @@ export default function TopAppBar(props) {
           <span style={{ cursor: 'pointer' }}>
           <Link href="/">
           <Typography  variant="h6" >
-            Media Site
+            {site?.sitename}
           </Typography>
           </Link>
           </span>
@@ -111,7 +113,7 @@ export default function TopAppBar(props) {
           </Grid>
         </Toolbar>
       </AppBar>   
-      <MenuDrawer />  
+      <LeftDeskDrawer />  
     </div>
   );
 }

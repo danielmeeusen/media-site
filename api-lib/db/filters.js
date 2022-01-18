@@ -1,6 +1,6 @@
-export async function findPeople(db) {
+export async function getFilter(db, filter) {
   return db
-    .collection('people')
+    .collection(filter)
     .find()
     .toArray();
   }

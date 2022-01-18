@@ -1,15 +1,12 @@
 import Head from 'next/head';
-import Router from 'next/router';
 import nc from 'next-connect';
 import { useState, useContext } from 'react';
-
 
 import { Container, Box, Button } from '@material-ui/core/';
 
 import { database } from '@/api-lib/middlewares';
 import { serverSideFindUserByUsername } from '@/api-lib/db';
 import { useCurrentUser } from '@/lib/user';
-import { AppContext } from '../../../lib/AppContext';
 
 
 export default function SendVerification({ user, email }) {

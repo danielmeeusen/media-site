@@ -8,7 +8,7 @@ const handler = nc(ncOpts);
 handler.use(database);
 
 handler.get(async (req, res) => {
-  const user = await findSite(req.db);
+  const site = await findSite(req.db);
   res.send({ site });
 });
 
