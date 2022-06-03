@@ -40,7 +40,6 @@ export const darkTheme = createTheme({
   },
   shadows: ["none"],
   typography: {
-    fontSize: 12,
     fontWeightLight: 200,
     fontWeightRegular: 300,
     fontWeightMedium: 400,
@@ -60,7 +59,6 @@ export const lightTheme = createTheme({
   },
   shadows: ["none"],
   typography: {
-    fontSize: 12,
     fontWeightLight: 200,
     fontWeightRegular: 300,
     fontWeightMedium: 400,

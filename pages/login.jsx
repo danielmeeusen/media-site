@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Router from 'next/router';
 import Link from '../components/Link';
+import { NextSeo } from 'next-seo';
 
 import { Container, Typography, Button, CssBaseline, TextField, Grid, Box, IconButton } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
@@ -60,9 +61,19 @@ export default function Login() {
 
   return (
     <>
-    <Head>
-    <title>Login</title>
-    </Head>
+      <NextSeo
+        title="Login"       
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_URL}/login`,
+          title: 'Login',
+          images: [
+            {
+              url: '/image/ogLogin',
+
+            }
+          ]
+        }} 
+        />
     <Container component="main" maxWidth="xs">
         <CssBaseline />        
       <Grid container justifyContent="flex-end">
