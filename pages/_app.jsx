@@ -24,15 +24,17 @@ export default function MyApp(props) {
   }, []);
 
   return (
-    <ContextWrapper>
+    <>
       <DefaultSeo {...SEO } />
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout> 
-      </ThemeProvider>
-    </ContextWrapper>
+      <ContextWrapper>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout> 
+        </ThemeProvider>
+      </ContextWrapper>
+    </>
   );
 }
 

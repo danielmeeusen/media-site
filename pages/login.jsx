@@ -64,14 +64,15 @@ export default function Login() {
       <NextSeo
         title="Login"       
         openGraph={{
+          title: 'Login',
           url: `${process.env.NEXT_PUBLIC_URL}/login`,
           title: 'Login',
           images: [
             {
-              url: '/image/ogLogin',
+              url: '/image/ogLogin.jpg',
 
-            }
-          ]
+            },
+          ],
         }} 
         />
     <Container component="main" maxWidth="xs">
