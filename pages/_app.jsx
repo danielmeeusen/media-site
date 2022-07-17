@@ -25,7 +25,7 @@ export default function MyApp(props) {
 
   return (
     <>
-      {/* <DefaultSeo {...SEO } /> */}
+      <DefaultSeo {...SEO } />
       <ContextWrapper>
         <ThemeProvider theme={darkTheme}>
           <CssBaseline />

@@ -65,7 +65,7 @@ export default function Login() {
         title="Login"       
         openGraph={{
           title: 'Login',
-          url: `${process.env.NEXT_PUBLIC_URL}/login`,
+          url: `${process.env.WEB_URI}/login`,
           title: 'Login',
           images: [
             {
