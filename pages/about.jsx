@@ -23,7 +23,7 @@ export default function record() {
 
       <Box>
         <Typography variant="body1" align="center" paragraph>
-          This site is meant as a test demonstration of a serverless video centered social media subsciption site. 
+          This site is meant as a test demonstration of a serverless video centered media/subsciption site. 
         </Typography>
 
         <Typography variant="body1" align="center" paragraph>

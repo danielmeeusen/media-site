@@ -12,7 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import SortIcon from '@material-ui/icons/Sort';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import MailOutlinedIcon from '@material-ui/icons/MailOutlined';
-import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import Copyright from '@/components/shared/Copyright';
@@ -148,8 +148,47 @@ export default function MobileMenu() {
         <MobileFilterList toggleDrawer={toggleDrawer} filtername={'tags'} />
         <MobileFilterList toggleDrawer={toggleDrawer} filtername={'year'} />
 
+        <Link href="/about" >
+          <ListItem button >
+            <ListItemIcon>
+              <span className={classes.icon} > <DescriptionOutlinedIcon /> </span>
+            </ListItemIcon>
+            <ListItemText>
+              <span className={classes.link} > About </span> 
+            </ListItemText>
+          </ListItem>
+        </Link>
+
+        <Divider />
+
+        <Link href="/contact">
+          <ListItem button >
+            <ListItemIcon>
+              <span className={classes.icon} > <MailOutlinedIcon /> </span>
+            </ListItemIcon>
+            <ListItemText>
+              <span className={classes.link} > Contact </span> 
+            </ListItemText>
+          </ListItem>
+        </Link>
+
+        <Divider/>  
+
+        <Link href="https://github.com/danielmeeusen/media-site" target="_new">
+          <ListItem button >
+            <ListItemIcon>
+              <span className={classes.icon} > <GitHubIcon /> </span>
+            </ListItemIcon>
+            <ListItemText>
+              <span className={classes.link} > GitHub </span> 
+            </ListItemText>
+          </ListItem>
+        </Link>
+
+      <Divider/> 
+
         <Link href="https://twitter.com/danmeeusen" target="_new">
-          <ListItem button onClick={toggleDrawer(false)} >
+          <ListItem button >
             <ListItemIcon>
               <span className={classes.icon} > <TwitterIcon /> </span>
             </ListItemIcon>
@@ -159,59 +198,20 @@ export default function MobileMenu() {
           </ListItem>
         </Link>
 
-          <Divider/>   
+        <Divider/>
 
-          <Link href="/contact">
-            <ListItem button onClick={toggleDrawer(false)} >
-              <ListItemIcon>
-                <span className={classes.icon} > <MailOutlinedIcon /> </span>
-              </ListItemIcon>
-              <ListItemText>
-                <span className={classes.link} > Contact </span> 
-              </ListItemText>
-            </ListItem>
-          </Link>
+      <Link href="/privacy" >
+        <ListItem button >
+          <ListItemIcon>
+            <span className={classes.icon} > <VisibilityOffOutlinedIcon /> </span>
+          </ListItemIcon>
+          <ListItemText>
+            <span className={classes.link} > Privacy Policy </span> 
+          </ListItemText>
+        </ListItem>
+      </Link>
 
-          <Divider/>   
-
-          <Link href="/abuse" >
-            <ListItem button onClick={toggleDrawer(false)} >
-              <ListItemIcon>
-                <span className={classes.icon} > <ReportProblemOutlinedIcon /> </span>
-              </ListItemIcon>
-              <ListItemText>
-                <span className={classes.link} > Report Abuse </span> 
-              </ListItemText>
-            </ListItem>
-          </Link>
-
-        <Divider/>     
-
-        <Link href="/privacy" >
-          <ListItem button onClick={toggleDrawer(false)} >
-            <ListItemIcon>
-              <span className={classes.icon} > <VisibilityOffOutlinedIcon /> </span>
-            </ListItemIcon>
-            <ListItemText>
-              <span className={classes.link} > Privacy Policy </span> 
-            </ListItemText>
-          </ListItem>
-        </Link>
-
-        <Divider />
-
-        <Link href="/record" >
-          <ListItem button onClick={toggleDrawer(false)} >
-            <ListItemIcon>
-              <span className={classes.icon} > <DescriptionOutlinedIcon /> </span>
-            </ListItemIcon>
-            <ListItemText>
-              <span className={classes.link} > 2257 Record </span> 
-            </ListItemText>
-          </ListItem>
-        </Link>
-
-        <Divider />
+      <Divider />
 
       </List>
 

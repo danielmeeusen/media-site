@@ -13,7 +13,7 @@ import DeskFilterList from './DeskFilterList';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import Copyright from '@/components/shared/Copyright';
 import MailOutlinedIcon from '@material-ui/icons/MailOutlined';
-import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 
@@ -133,18 +133,18 @@ export default function DeskMenu() {
       <DeskFilterList filtername={'tags'} />
       <DeskFilterList filtername={'year'} />
 
-      <Link href="https://twitter.com/danmeeusen" target="_new">
+      <Link href="/about" >
         <ListItem button >
           <ListItemIcon>
-            <span className={classes.icon} > <TwitterIcon /> </span>
+            <span className={classes.icon} > <DescriptionOutlinedIcon /> </span>
           </ListItemIcon>
           <ListItemText>
-            <span className={classes.link} > Twitter </span> 
+            <span className={classes.link} > About </span> 
           </ListItemText>
         </ListItem>
       </Link>
 
-      <Divider/>   
+      <Divider />
 
       <Link href="/contact">
         <ListItem button >
@@ -157,41 +157,41 @@ export default function DeskMenu() {
         </ListItem>
       </Link>
 
-      <Divider/>   
+      <Divider/>  
 
-      <Link href="/abuse" >
+      <Link href="https://github.com/danielmeeusen/media-site" target="_new" >
         <ListItem button >
           <ListItemIcon>
-            <span className={classes.icon} > <ReportProblemOutlinedIcon /> </span>
+            <span className={classes.icon} > <GitHubIcon /> </span>
           </ListItemIcon>
           <ListItemText>
-            <span className={classes.link} > Report Abuse </span> 
+            <span className={classes.link} > GitHub </span> 
           </ListItemText>
         </ListItem>
       </Link>
 
-    <Divider/>     
+    <Divider/> 
+
+      <Link href="https://twitter.com/danmeeusen" target="_new">
+        <ListItem button >
+          <ListItemIcon>
+            <span className={classes.icon} > <TwitterIcon /> </span>
+          </ListItemIcon>
+          <ListItemText>
+            <span className={classes.link} > Twitter </span> 
+          </ListItemText>
+        </ListItem>
+      </Link>
+
+      <Divider/>
 
     <Link href="/privacy" >
-    <ListItem button >
+      <ListItem button >
         <ListItemIcon>
           <span className={classes.icon} > <VisibilityOffOutlinedIcon /> </span>
         </ListItemIcon>
         <ListItemText>
           <span className={classes.link} > Privacy Policy </span> 
-        </ListItemText>
-      </ListItem>
-    </Link>
-
-    <Divider />
-
-    <Link href="/record" >
-    <ListItem button >
-        <ListItemIcon>
-          <span className={classes.icon} > <DescriptionOutlinedIcon /> </span>
-        </ListItemIcon>
-        <ListItemText>
-          <span className={classes.link} > 2257 Record </span> 
         </ListItemText>
       </ListItem>
     </Link>
