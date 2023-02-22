@@ -1,19 +1,38 @@
 import bcrypt from 'bcryptjs';
-import { nanoid } from 'nanoid';
+import { ObjectId } from 'mongodb';
+
 import normalizeEmail from 'validator/lib/normalizeEmail';
 import isEmail from 'validator/lib/isEmail';
-import { slugUsername } from '@/lib/user';
+import { slugUsername } from '@/api-lib/validators';
 
-export async function findUserWithEmailAndPassword(db, email, password) {
-  email = normalizeEmail(email);
-  const user = await db.collection('users').findOne({ email });
-  if (user && (await bcrypt.compare(password, user.password))) {
-    return { ...user, password: undefined }; // filtered out password
+
+export async function throttleLogins(db, ip, login) {
+  let logins = await db.collection('logins').findOne({ login });  
+  if(logins) {
+    if(logins.attempt > 10) {
+      return logins;
+    }
+    let update = {
+      attempt: logins.attempt + 1,
+    }
+    await db.collection('logins').findOneAndUpdate(
+      { login },
+      { $set: update },
+      { returnDocument: 'after' })
+      .then(({ value }) => value);
+  } else {
+    let logins = {
+      login,
+      ip,
+      attempt: 1,
+      createdAt: new Date(),
+    };
+    await db.collection('logins').insertOne({ ...logins });
   }
-  return null;
+  return logins;
 }
 
-export async function findUserByLogin(db, login, password) {
+export async function findUserByLoginAndPassword(db, login, password) {
   let user = {};
   if(isEmail(login)) {
     const email = normalizeEmail(login);
@@ -23,7 +42,8 @@ export async function findUserByLogin(db, login, password) {
     user = await db.collection('users').findOne({ username })
   }
   if (user && (await bcrypt.compare(password, user.password))) {
-    return { ...user, password: undefined} // filtered out password
+    const userSessions = await findUserSessions(db, user._id);
+    return { ...user, sessions: userSessions.length, password: undefined} // filtered out password
   }
   return null;
 }
@@ -33,7 +53,7 @@ export async function UNSAFE_findUserForAuth(db, userId) {
   return db
     .collection('users')
     .findOne(
-      { _id: userId },
+      { _id:  new ObjectId(userId) },
       {
         projection: { password: 0 },
       }
@@ -41,11 +61,28 @@ export async function UNSAFE_findUserForAuth(db, userId) {
     .then((user) => user || null);
 }
 
+export async function findUserByLogin(db, login) {
+  if(isEmail(login)) {
+    const email = normalizeEmail(login);
+    return db.collection('users').findOne({ email }, { projection: { password: 0 }} || null);
+  }
+  const username = slugUsername(login);
+  return db.collection('users').findOne({ username }, { projection: { password: 0 }} || null);
+}
+
 export async function findUserById(db, userId) {
   return db
     .collection('users')
-    .findOne({ _id: userId }, { projection: dbProjectionUsers() })
+    .findOne({ _id:  new ObjectId(userId) }, { projection: dbProjectionUsers() })
     .then((user) => user || null);
+}
+
+export async function findUserSessions(db, userId) {
+  return db
+    .collection('sessions')
+    .find({ 'session.passport.user': userId })
+    .toArray()
+    .then((sessions) => sessions || []);
 }
 
 export async function findUserByUsername(db, username) {
@@ -70,52 +107,57 @@ export async function findUserByEmail(db, email) {
     .then((user) => user || null);
 }
 
-export async function updateUserById(db, id, data) {
+export async function updateUserById(db, userId, data) {
   return db
     .collection('users')
     .findOneAndUpdate(
-      { _id: id },
+      { _id:  new ObjectId(userId) },
       { $set: data },
       { returnDocument: 'after', projection: dbProjectionUsers() }
     )
     .then(({ value }) => value);
 }
 
-export async function insertUser(
-  db,
-  { email, originalPassword, bio = '', name, profilePicture, username }
-) {
+export async function insertUser( db, { email, originalPassword, username, epoch, subscribed, lastChecked }) {
   const password = await bcrypt.hash(originalPassword, 10);
   const user = {
-    _id: nanoid(12),
     username,
     email,
+    watchlist: [],
     emailVerified: false,
-    favorites: [],
-    admin: false
+    epoch,
+    lastChecked,
+    subscribed,
+    creator: false,
+    promo: false,
+    founder: false,
   };
-  await db.collection('users').insertOne({ ...user, password });
+  const { insertedId } = await db.collection('users').insertOne({ ...user, password });
+  user._id = insertedId;
   return user;
-}
+};
 
-export async function updateUserPasswordByOldPassword(
-  db,
-  id,
-  oldPassword,
-  newPassword
-) {
-  const user = await db.collection('users').findOne({ _id: id });
+export async function deleteUserById( db, userId ) {
+  return db.collection('users').deleteOne({ _id: new ObjectId(userId) });
+};
+
+export async function deleteUserSessionById( db, sessionId ) {
+  return db.collection('sessions').deleteOne({ _id: sessionId });
+};
+
+export async function updateUserPasswordByOldPassword( db, userId, oldPassword, newPassword ) {
+  const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
   if (!user) return false;
   const matched = await bcrypt.compare(oldPassword, user.password);
   if (!matched) return false;
   const password = await bcrypt.hash(newPassword, 10);
-  await db.collection('users').updateOne({ _id: id }, { $set: { password } });
+  await db.collection('users').updateOne({ _id: new ObjectId(userId) }, { $set: { password } });
   return true;
 }
 
-export async function UNSAFE_updateUserPassword(db, id, newPassword) {
+export async function UNSAFE_updateUserPassword(db, userId, newPassword) {
   const password = await bcrypt.hash(newPassword, 10);
-  await db.collection('users').updateOne({ _id: id }, { $set: { password } });
+  await db.collection('users').updateOne({ _id: new ObjectId(userId) }, { $set: { password } });
 }
 
 export function dbProjectionUsers(prefix = '') {

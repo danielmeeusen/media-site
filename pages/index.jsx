@@ -1,29 +1,62 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {withWidth, Hidden } from '@material-ui/core';
-import DeskHome from '../components/content/desk-content/DeskHome';
-import MobileHome from '../components/content/mobile-content/MobileHome';
-import Warning from '../components/Warning'
+import React, { useContext } from 'react';
 
+import { getMongoDb } from '@/api-lib/mongodb';
+// import { getRandomTagsFromPosts } from '@/api-lib/db';
+import { sortContext } from '@/lib/AppContext';
+import Posts from '@/components/post/Posts';
 
-function Index(props) {
+export default function Index({ tags }) {
+  const [ sort, setSort ] = useContext(sortContext);
 
-  return (     
-    <>
-      <Warning />
-      <Hidden mdUp>
-        <MobileHome />
-      </Hidden>
+  const query = {
+    type: 'all',
+    keywords: tags,
+  };
 
-      <Hidden smDown>
-        <DeskHome />
-      </Hidden>
-    </>
+  return (  
+    <div style={{ margin: "0px 9px 0px 9px" }}>
+      <Posts query={sort == 'blend' && query} />
+    </div>   
   );
 }
 
-Index.propTypes = {
-  width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
-};
+export async function getServerSideProps(context) {
+  const db = await getMongoDb();
+  // const tags = await getRandomTagsFromPosts(db, 20);
 
-export default withWidth()(Index);
+  return { props: {
+    tags: {},
+    openGraphData: [
+      {
+        property: "og:image",
+        content: '',
+        key: "ogimage",
+      },
+      {
+        property: "og:url",
+        content: '',
+        key: "ogurl",
+      },
+      {
+        property: "og:image:secure_url",
+        content: '',
+        key: "ogimagesecureurl",
+      },
+      {
+        property: "og:title",
+        content: 'MediaSite',
+        key: "ogtitle",
+      },
+      {
+        property: "og:description",
+        content: "Demonstration Media Site",
+        key: "ogdesc",
+      },
+      {
+        property: "og:type",
+        content: "MediaSite",
+        key: "website",
+      },
+    ],
+  }}
+}

@@ -1,6 +1,6 @@
 export async function findSite(db) {
   return db
     .collection('site')
-    .findOne({ sitename: 'Media Site' })
+    .findOne({ siteName: 'MediaSite' })
     .then((site) => site);
 }

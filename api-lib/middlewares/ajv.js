@@ -3,6 +3,7 @@ import Ajv from 'ajv';
 export function validateBody(schema) {
 
   const ajv = new Ajv();
+
   const validate = ajv.compile(schema);
 
   return (req, res, next) => {

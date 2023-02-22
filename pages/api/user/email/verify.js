@@ -1,36 +1,46 @@
+import nc from 'next-connect';
+
+import { ncOpts } from '@/api-lib/nc';
 import { createToken } from '@/api-lib/db';
 import { CONFIG as MAIL_CONFIG, sendMail } from '@/api-lib/mail';
-import { all } from '@/api-lib/middlewares';
-import { ncOpts } from '@/api-lib/nc';
-import nc from 'next-connect';
+import { auths } from '@/api-lib/middlewares';
+import { getMongoDb } from '@/api-lib/mongodb';
+import { composeEmail } from '@/api-lib/emails';
 
 const handler = nc(ncOpts);
 
-handler.use(all);
+handler.use(...auths);
 
-handler.post(async (req, res) => {
+handler.post(
+  ...auths,
+  async (req, res) => {
   if (!req.user) {
     res.json(401).send('you need to be authenticated');
     return;
   }
-
+  const db = await getMongoDb();
+  const { user } = req;
   // tokens expire after 24 hours
-  const token = await createToken(req.db, {
-    creatorId: req.user._id,
+  const token = await createToken(db, {
+    creator_id: req.user._id,
     type: 'emailVerify',
-    expireAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
+    expireAt: new Date(Date.now() + 1000 * 60 * 20),
   });
+
+  const emailOptions = {
+    title: 'Are you trying to verify your email address?',
+    username: user?.username,
+    firstLine: `It looks like you are trying to verify an email linked to an account at: <b>${process.env.WEB_URI}</b>.`,
+    clickBelow: `Please click the button below within the next 20 minutes to verify your email address:`,
+    link: `${process.env.WEB_URI}/verify-email/${token._id}`,
+    button: 'VERIFY EMAIL'
+  };
 
   await sendMail({
     to: req.user.email,
     from: MAIL_CONFIG.from,
     subject: `Verification Email for ${process.env.WEB_URI}`,
-    html: `
-      <div>
-        <p>Hello, ${req.user.username}</p>
-        <p>Please follow <a href="${process.env.WEB_URI}/verify-email/${token._id}">this link</a> to confirm your email.</p>
-      </div>
-      `,
+    html: composeEmail(emailOptions),
   });
 
   res.end('ok');
