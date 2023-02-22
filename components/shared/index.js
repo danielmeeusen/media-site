@@ -6,8 +6,4 @@ export { default as Loading } from './Loading';
 export { default as Meta } from './Meta';
 export { default as Msg } from './Msg';
 export { default as PasswordInput } from './PasswordInput';
-export { default as Warning } from './Warning';
 export { DarkTooltip } from './DarkTooltip';
-
-
-
