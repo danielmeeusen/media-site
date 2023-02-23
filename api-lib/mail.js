@@ -9,16 +9,17 @@ const nodemailerConfig = process.env.NODEMAILER_CONFIG
 
 const transporter = nodemailer.createTransport(nodemailerConfig);
 
-export async function sendMail({ from, to, subject, html }) {
+export async function sendMail({ from, to, subject, text, html, replyTo }) {
   try {
     await transporter.sendMail({
       from,
       to,
+      replyTo,
       subject,
       html,
+      text,
     });
   } catch (e) {
-    console.error(e);
     throw new Error(`Could not send email.`);
   }
 }

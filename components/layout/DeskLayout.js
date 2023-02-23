@@ -1,14 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
+import dynamic from "next/dynamic";
 import clsx from 'clsx';
 
-import {Container, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import TopDesk from '../navigation/desk-nav/TopDesk';
-
-import { leftDeskMenuContext } from '../../lib/AppContext';
-
-let drawerWidth = 240;
+import { deskMenuContext } from '@/lib/AppContext';
+const DeskTop = dynamic(() => import('@/components/navigation/desk-nav/DeskTop'));
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -23,27 +21,24 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: drawerWidth,
+    marginLeft: 240,
   },
 }))
 
 
-export default function DeskLayout(props) {
-  const { children } = props; 
+export default function DeskLayout({ children }) {
   const classes = useStyles();
-  const [ leftDeskMenu, setLeftDeskMenu ] = useContext(leftDeskMenuContext);
+  const [ deskMenu, setDeskMenu ] = useContext(deskMenuContext);
 
   return (
     <>
-      <TopDesk />
+      <DeskTop />
       <div className={clsx(classes.content, {
-      [classes.contentShift]: leftDeskMenu,
+      [classes.contentShift]: deskMenu,
       })}>
-      <Container>
-        <Box my={10} textAlign='center'>
+        <Box my={7}>
           { children }
         </Box>
-      </Container>
       </div>
       </>
     ) 

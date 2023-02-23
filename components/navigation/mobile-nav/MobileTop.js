@@ -1,37 +1,58 @@
-import React, { useContext, useEffect } from 'react';
-import Link from 'next/link';
+import React from 'react';
+import { useRouter } from 'next/router';
+
+import { AppBar, Toolbar, Typography, Box, Grid, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, Box } from '@material-ui/core';
-import { mobileHomeContext } from '../../../lib/AppContext';
-import { useSite } from '@/lib/site';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+
+import Link from '@/components/shared/Link';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: theme.palette.background.paper,
-    maxHeight: 55,
+    backgroundColor: theme.palette.background.default,
+    maxHeight: 45,
+    },
+    toolBar: {
+      minHeight: 45,
+    },
+    back: {
+      fontSize: "16px",
+      marginLeft: "-15px",
+      marginTop: "-10px"
+    },
+    title: {
+      margin: '-2px -5px 0px 0px',
+      color: theme.palette.text.primary
     },
 }));
 
-export default function ButtonAppBar() {
+export default function MobileTop() {
   const classes = useStyles();
-  const [ mobileHome, setMobileHome ] = useContext(mobileHomeContext);
-  const site = useSite();
+  const Router = useRouter();
 
   return (
-    <Box display={ mobileHome.display } >
-      <AppBar elevation={0} position="sticky" className={classes.appBar}>
+    <Box>
+      <AppBar position="sticky" className={classes.appBar}>
         <Toolbar>
-          <span style={{ cursor: 'pointer', flexGrow: '1' }}>
-          <Link href="/">
-          <Typography  variant="h6" >
-          {site?.sitename}
-          </Typography>
-          </Link>
-          </span>
+        <Grid
+          container
+          justifyContent="space-between"
+        >
+        { location.pathname !== '/' &&
+        <Grid item>
+          <IconButton onClick={ () => Router.back() } className={classes.back} >
+            <ArrowBackIosIcon />
+          </IconButton>
+          </Grid>
+        }
+          <Grid item>
+            <Link href="/" >
+              <Typography  variant="h6" className={classes.title}>
+                MediaSite
+              </Typography>
+            </Link>
+          </Grid>
+        </Grid>
         </Toolbar>
       </AppBar>
     </Box>

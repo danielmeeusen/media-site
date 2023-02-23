@@ -1,32 +1,46 @@
 import React, { useState } from 'react';
 import useSWR from 'swr';
-import { fetcher } from '@/lib/fetch'
 
-import { List, ListItem, ListItemText, Collapse, Divider } from '@material-ui/core';
+import { List, ListItem, ListItemText, Collapse, Divider, Box } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import Skeleton from '@material-ui/lab/Skeleton';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import PersonIcon from '@material-ui/icons/Person';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
-import { makeStyles } from '@material-ui/core/styles';
+import Link from '@/components/shared/Link';
+import { fetcher } from '@/lib/fetch';
 
-const useStyles = makeStyles((theme) => ({ 
-  parent: {
-    paddingLeft: theme.spacing(1),
+const useStyles = makeStyles((theme) => ({
+  title: {
+    fontSize: '16px', 
+    paddingLeft: '10px',
   },
-  nested: {
-    paddingLeft: theme.spacing(5),
+  link: {
+    fontSize: '16px',
+    color: theme.palette.text.primary,
+    paddingLeft: '30px',
+  },
+  skeleton: {
+    marginLeft: '40px',
+    height: '20px',
+    marginBottom: '19px',
+  },
+  showMore: {
+    fontSize: '16px',
+  },
+  icon: {
+    color: theme.palette.custom.sixtyFive,
   }
 }));
+
 
 export default function DeskFilterList({ filtername }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const { data } = useSWR(`/api/filter/${filtername}`, fetcher);
-  
-  if(filtername == 'year'){
-    data?.filter.sort( (fi, si) => si.name - fi.name);
-  } else { 
-  data?.filter.sort( (fi, si) => si.media.length - fi.media.length);
-  }
+  const { data } = useSWR(`/api/tag?type=${filtername}`, fetcher);
   
   const handleClick = () => {
     setOpen(!open);
@@ -34,43 +48,71 @@ export default function DeskFilterList({ filtername }) {
 
   return (
     <>
-    <ListItem button >
-      <ListItemText primary={ filtername.charAt(0).toUpperCase() + filtername.slice(1) } className={classes.parent} />
-    </ListItem>
+      <ListItem >
+        <span className={classes.icon} >
+          {filtername == 'people' ? <PersonIcon /> : filtername == 'tags' ? <LocalOfferIcon /> : <CalendarTodayIcon />}
+        </span>
+        <ListItemText >
+          <span className={classes.title} >
+            {filtername.charAt(0).toUpperCase() + filtername.slice(1)}
+          </span>
+        </ ListItemText>    
+      </ListItem>
 
-      <List component="div" disablePadding dense>
+      <List disablePadding dense>
 
-        {data?.filter.slice(0, 3).map(item => {
-          const text = `${item.name}  (${item.media.length})`
+        {(data?.slice(0, 3).map(item => {
+          const text = item.name.replaceAll('_', ' ');
           return (
-          <ListItem button key={item._id} className={classes.nested}>
-            <ListItemText primary={text} />
-          </ListItem>
+            <Link href={`/results?type=filter&keywords=${item.name}`} key={item._id} >
+              <ListItem button>
+                <ListItemText >
+                  <span className={classes.link} > { text } </span>
+                </ListItemText>
+              </ListItem>
+            </Link>
           )} 
+        )) 
+        || (
+          <>
+            <Skeleton width={140} className={classes.skeleton} />
+            <Skeleton width={140} className={classes.skeleton} />
+            <Skeleton width={140} className={classes.skeleton} />
+          </>
         )}
 
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={open} timeout="auto" unmountOnExit>  
 
-        {data?.filter.slice(3).map(item => {
-          const text = `${item.name}  (${item.media.length})`
-          return (
-          <ListItem button key={item._id} className={classes.nested}>
-            <ListItemText primary={text} />
-          </ListItem>
-          )} 
-        )}
+          {data?.slice(3).map(item => {
+            const text = item.name.replaceAll('_', ' ');
+            return (
+              <Link href={`/results?type=filter&keywords=${item.name}`} key={item._id} >
+                <ListItem button>
+                  <ListItemText >
+                    <span className={classes.link} > { text } </span>
+                  </ListItemText>
+                </ListItem>
+              </Link>
+            )} 
+          )}
 
         </Collapse>
 
       </List>
 
-      <ListItem button onClick={handleClick} className={classes.nested}>
-        <ListItemText primary={open ? "show less" : "show more"} />
-          {open ? <ExpandLess /> : <ExpandMore />}
+      <ListItem button onClick={handleClick} >
+      <ListItemText 
+          primary={open ? 
+          <span className={classes.showMore}>show less</span>
+          : 
+           <span className={classes.showMore}>show more</span>
+          } 
+          align={"center"} 
+          />
+            {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
 
       <Divider />
-            
-    </>
+      </>
   );
 }

@@ -1,72 +1,78 @@
-import { ValidateProps } from '@/api-lib/constants';
+import nc from 'next-connect';
+import normalizeEmail from 'validator/lib/normalizeEmail';
+import isEmail from 'validator/lib/isEmail';
+
+import { validatePassword } from '@/api-lib/validators';
 import {
   createToken,
   findAndDeleteTokenByIdAndType,
   findUserByEmail,
   UNSAFE_updateUserPassword,
 } from '@/api-lib/db';
+import { composeEmail } from '@/api-lib/emails';
 import { CONFIG as MAIL_CONFIG, sendMail } from '@/api-lib/mail';
-import { database, validateBody } from '@/api-lib/middlewares';
+import { auths } from '@/api-lib/middlewares';
+import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';
-import nc from 'next-connect';
-import normalizeEmail from 'validator/lib/normalizeEmail';
 
 const handler = nc(ncOpts);
 
-handler.use(database);
+handler.use(...auths);
 
 handler.post(
-  validateBody({
-    type: 'object',
-    properties: {
-      email: ValidateProps.user.email,
-    },
-    required: ['email'],
-    additionalProperties: false,
-  }),
   async (req, res) => {
+    const db = await getMongoDb();
+
+    if (!isEmail(req.body.email)) {
+      res.status(400).send('Email address is invalid');
+    }
     const email = normalizeEmail(req.body.email);
-    const user = await findUserByEmail(req.db, email);
+    const user = await findUserByEmail(db, email);
     if (!user) {
-      res.status(401).send('The email is not found');
+      res.status(401).send('No account found with that Email');
       return;
     }
 
-    const token = await createToken(req.db, {
-      creatorId: user._id,
+    // token expires after 20 minutes
+    const token = await createToken(db, {
+      creator_id: user._id,
       type: 'passwordReset',
       expireAt: new Date(Date.now() + 1000 * 60 * 20),
     });
 
+    const emailOptions = {
+      title: 'Did you forget your password?',
+      username: user?.username,
+      firstLine: `It looks like you are trying reset your password to: <b>${process.env.WEB_URI}</b>.`,
+      clickBelow: `Please click the button below within the next 20 minutes to reset your password:`,
+      link: `${process.env.WEB_URI}/recover-password/${token._id}`,
+      button: 'RESET PASSWORD'
+    };
+
     await sendMail({
       to: email,
       from: MAIL_CONFIG.from,
-      subject: '[nextjs-mongodb-app] Reset your password.',
-      html: `
-      <div>
-        <p>Hello, ${user.name}</p>
-        <p>Please follow <a href="${process.env.WEB_URI}/forget-password/${token._id}">this link</a> to reset your password.</p>
-      </div>
-      `,
+      subject: `${process.env.WEB_URI} Reset your password.`,
+      html: composeEmail(emailOptions),
     });
-
     res.end('ok');
   }
 );
 
 handler.put(
-  validateBody({
-    type: 'object',
-    properties: {
-      password: ValidateProps.user.password,
-      token: { type: 'string', minLength: 0 },
-    },
-    required: ['password', 'token'],
-    additionalProperties: false,
-  }),
   async (req, res) => {
+    const db = await getMongoDb();
+
+    let { newPassword, confirmNewPassword } = req.body;
+    
+    let passwordRes = await validatePassword(db, newPassword, confirmNewPassword);
+
+    if (passwordRes.status !== 200) {
+      res.status(passwordRes.status).send(passwordRes.message);
+      return;
+    }
     const deletedToken = await findAndDeleteTokenByIdAndType(
-      req.db,
+      db,
       req.body.token,
       'passwordReset'
     );
@@ -75,9 +81,9 @@ handler.put(
       return;
     }
     await UNSAFE_updateUserPassword(
-      req.db,
-      deletedToken.creatorId,
-      req.body.password
+      db,
+      deletedToken.creator_id,
+      req.body.newPassword
     );
     res.end('ok');
   }

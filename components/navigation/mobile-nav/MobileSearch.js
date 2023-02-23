@@ -1,145 +1,214 @@
-import React, { useContext } from 'react';
-import { TextField, Box } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import React, { useContext, useState, forwardRef, useRef } from 'react';
+import Router from 'next/router';
 
-import { mobileSearchContext } from '../../../lib/AppContext';
+import { Dialog, Slide, Divider, IconButton, List, ListItem, ListItemText } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import CancelIcon from '@material-ui/icons/Cancel';
+import HistoryIcon from '@material-ui/icons/History';
 
+import Link from '@/components/shared/Link';
+import { mobileBottomContext, searchValueContext } from '@/lib/AppContext';
+import { fetcher } from '@/lib/fetch';
+
+export const useStyles = makeStyles((theme) => ({
+  drawerPaper: {
+    width: '100%',
+    height: '100%',
+  },
+  search: {
+    display: 'flex',
+    height: 60,
+    width: '100%',
+    },
+    input: {
+      "&:-webkit-autofill": {
+        WebkitBoxShadow: theme.palette.boxShadow.searchAutofill,
+        "&:hover": {
+          WebkitBoxShadow: theme.palette.boxShadow.searchAutofillHover,
+        },
+        WebkitTextFillColor: theme.palette.text.primary
+      },
+      outline: 'none !important',
+      flex: 1,
+      border: 'none',
+      backgroundColor: 'transparent',
+      color: theme.palette.text.primary,
+      '-webkit-box-shadow': 'none',
+      '-moz-box-shadow': 'none',
+      flex: 1,
+      fontSize: '20px',
+      marginLeft: '-15px',
+    },
+  link: {
+    color: theme.palette.text.primary,
+    paddingLeft: '20px',
+    fontSize: '20px',
+  },
+  history: {
+    color: theme.palette.text.primary,
+    paddingLeft: '10px',
+    fontSize: '20px',
+  },
+}));
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function MobileSearch() {
-  const [ mobileSearch ] = useContext(mobileSearchContext);
+  const classes = useStyles();
+  const inputRef = useRef();
+  const [ mobileBottom, setMobileBottom ] = useContext(mobileBottomContext);
+  const [ searchValue, setSearchValue ] = useContext(searchValueContext);
+  const [ autocompleteValue, setAutocompleteValue ] = useState([]);
+
+  
+  let searches = JSON.parse(localStorage.getItem('searches')) || [];
+  searches = searches.map(search => search.replaceAll('_', ' '));
+  
+  const handleClose = () => {
+    setMobileBottom('Home');
+  };
+
+  const handleSearchHistory = async (value) => {
+    let searches = JSON.parse(localStorage.getItem('searches')) || [];
+    searches = searches.slice(0, 10);
+    searches.unshift(value);
+    localStorage.setItem('searches', JSON.stringify(searches));
+  };
+
+  const handleChange = async (e) => {
+    if(e.target.value) {
+      setSearchValue(e.target.value);
+      let data = await fetcher(`/api/autocomplete/${e.target.value}`);
+      data.map(item => item.name = item.name.replaceAll('_', ' '));
+      setAutocompleteValue(data);
+    } else {
+      setSearchValue('');
+    }
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    handleChange(e);
+    const data = await fetcher(`/api/tag?name=${searchValue.replaceAll(' ','_')}`);
+    const type = data ? 'filter' : 'search';
+    handleSearchHistory(searchValue);
+    if(searchValue){
+      Router.push({
+        pathname: '/results/',
+        query: {
+          type: type, 
+          keywords: type == 'search' ? searchValue : searchValue.replaceAll(' ','_'),
+        },
+      });
+    };
+    setMobileBottom('Home');
+  }
+
+  const handleSelect = async (value) => {
+    const data = await fetcher(`/api/tag?name=${value.replaceAll(' ','_')}`);
+    const type = data ? 'filter' : 'search';
+    handleSearchHistory(value);
+    Router.push({
+      pathname: '/results/',
+      query: {
+        type: type, 
+        keywords: type == 'search' ? value : value.replaceAll(' ','_'),
+      },
+    });
+    setMobileBottom('Home');
+  };
+
+  const handleClear = (e) => {
+    setSearchValue('');
+    setAutocompleteValue([]);
+    inputRef.current.focus();
+  }
 
   return (
-    <Box display={ mobileSearch.display }
+    <Dialog
+      fullScreen
+      open={mobileBottom == 'Search'}
+      onClose={handleClose}
+      TransitionComponent={Transition}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
     >
-      <div style={{ width: 300 }}>
-        <Autocomplete
-          id="free-solo-demo"
-          freeSolo
-          options={top100Films.map((option) => option.title)}
-          renderInput={(params) => (
-            <TextField {...params} label="freeSolo" margin="normal" variant="outlined" />
-          )}
-        />
-        <Autocomplete
-          freeSolo
-          id="free-solo-2-demo"
-          disableClearable
-          options={top100Films.map((option) => option.title)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Search input"
-              margin="normal"
-              variant="outlined"
-              InputProps={{ ...params.InputProps, type: 'search' }}
-            />
-          )}
-        />
-      </div>
-    </Box>
-  );
-}
+      <>
+        <form className={classes.search} onSubmit={handleSearch} action=".">
+          <IconButton onClick={handleClose} >
+            <ArrowBackIosIcon />
+          </IconButton>   
+          <input
+            className={classes.input}
+            ref={inputRef}
+            autoFocus
+            type="search"
+            autoComplete="off"
+            value={searchValue}
+            placeholder="Search"
+            onChange={handleChange}
+          />          
+            {searchValue && 
+              <IconButton 
+                color="secondary" 
+                onClick={handleClear}
+              >
+                <CancelIcon />
+              </IconButton>
+            }
+          </form>
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-  { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
-  { title: 'The Good, the Bad and the Ugly', year: 1966 },
-  { title: 'Fight Club', year: 1999 },
-  { title: 'The Lord of the Rings: The Fellowship of the Ring', year: 2001 },
-  { title: 'Star Wars: Episode V - The Empire Strikes Back', year: 1980 },
-  { title: 'Forrest Gump', year: 1994 },
-  { title: 'Inception', year: 2010 },
-  { title: 'The Lord of the Rings: The Two Towers', year: 2002 },
-  { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { title: 'Goodfellas', year: 1990 },
-  { title: 'The Matrix', year: 1999 },
-  { title: 'Seven Samurai', year: 1954 },
-  { title: 'Star Wars: Episode IV - A New Hope', year: 1977 },
-  { title: 'City of God', year: 2002 },
-  { title: 'Se7en', year: 1995 },
-  { title: 'The Silence of the Lambs', year: 1991 },
-  { title: "It's a Wonderful Life", year: 1946 },
-  { title: 'Life Is Beautiful', year: 1997 },
-  { title: 'The Usual Suspects', year: 1995 },
-  { title: 'Léon: The Professional', year: 1994 },
-  { title: 'Spirited Away', year: 2001 },
-  { title: 'Saving Private Ryan', year: 1998 },
-  { title: 'Once Upon a Time in the West', year: 1968 },
-  { title: 'American History X', year: 1998 },
-  { title: 'Interstellar', year: 2014 },
-  { title: 'Casablanca', year: 1942 },
-  { title: 'City Lights', year: 1931 },
-  { title: 'Psycho', year: 1960 },
-  { title: 'The Green Mile', year: 1999 },
-  { title: 'The Intouchables', year: 2011 },
-  { title: 'Modern Times', year: 1936 },
-  { title: 'Raiders of the Lost Ark', year: 1981 },
-  { title: 'Rear Window', year: 1954 },
-  { title: 'The Pianist', year: 2002 },
-  { title: 'The Departed', year: 2006 },
-  { title: 'Terminator 2: Judgment Day', year: 1991 },
-  { title: 'Back to the Future', year: 1985 },
-  { title: 'Whiplash', year: 2014 },
-  { title: 'Gladiator', year: 2000 },
-  { title: 'Memento', year: 2000 },
-  { title: 'The Prestige', year: 2006 },
-  { title: 'The Lion King', year: 1994 },
-  { title: 'Apocalypse Now', year: 1979 },
-  { title: 'Alien', year: 1979 },
-  { title: 'Sunset Boulevard', year: 1950 },
-  { title: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb', year: 1964 },
-  { title: 'The Great Dictator', year: 1940 },
-  { title: 'Cinema Paradiso', year: 1988 },
-  { title: 'The Lives of Others', year: 2006 },
-  { title: 'Grave of the Fireflies', year: 1988 },
-  { title: 'Paths of Glory', year: 1957 },
-  { title: 'Django Unchained', year: 2012 },
-  { title: 'The Shining', year: 1980 },
-  { title: 'WALL·E', year: 2008 },
-  { title: 'American Beauty', year: 1999 },
-  { title: 'The Dark Knight Rises', year: 2012 },
-  { title: 'Princess Mononoke', year: 1997 },
-  { title: 'Aliens', year: 1986 },
-  { title: 'Oldboy', year: 2003 },
-  { title: 'Once Upon a Time in America', year: 1984 },
-  { title: 'Witness for the Prosecution', year: 1957 },
-  { title: 'Das Boot', year: 1981 },
-  { title: 'Citizen Kane', year: 1941 },
-  { title: 'North by Northwest', year: 1959 },
-  { title: 'Vertigo', year: 1958 },
-  { title: 'Star Wars: Episode VI - Return of the Jedi', year: 1983 },
-  { title: 'Reservoir Dogs', year: 1992 },
-  { title: 'Braveheart', year: 1995 },
-  { title: 'M', year: 1931 },
-  { title: 'Requiem for a Dream', year: 2000 },
-  { title: 'Amélie', year: 2001 },
-  { title: 'A Clockwork Orange', year: 1971 },
-  { title: 'Like Stars on Earth', year: 2007 },
-  { title: 'Taxi Driver', year: 1976 },
-  { title: 'Lawrence of Arabia', year: 1962 },
-  { title: 'Double Indemnity', year: 1944 },
-  { title: 'Eternal Sunshine of the Spotless Mind', year: 2004 },
-  { title: 'Amadeus', year: 1984 },
-  { title: 'To Kill a Mockingbird', year: 1962 },
-  { title: 'Toy Story 3', year: 2010 },
-  { title: 'Logan', year: 2017 },
-  { title: 'Full Metal Jacket', year: 1987 },
-  { title: 'Dangal', year: 2016 },
-  { title: 'The Sting', year: 1973 },
-  { title: '2001: A Space Odyssey', year: 1968 },
-  { title: "Singin' in the Rain", year: 1952 },
-  { title: 'Toy Story', year: 1995 },
-  { title: 'Bicycle Thieves', year: 1948 },
-  { title: 'The Kid', year: 1921 },
-  { title: 'Inglourious Basterds', year: 2009 },
-  { title: 'Snatch', year: 2000 },
-  { title: '3 Idiots', year: 2009 },
-  { title: 'Monty Python and the Holy Grail', year: 1975 },
-];
+       <Divider color="secondary" orientation="horizontal" />
+       {searchValue &&
+       <List>
+       {autocompleteValue?.map((item, index) => {
+        const text = item.name;
+        return (
+          <div key={item.name}>
+              <ListItem button >
+                <ListItemText onClick={ () => handleSelect(text) }>
+                  <span className={classes.link} > { text } </span>
+                </ListItemText>
+              </ListItem>
+            <Divider />
+        </div>
+        )} 
+      )}
+      </List>
+      }
+
+      {!searchValue &&
+      <List>
+       {searches?.map((item, index) => {
+        const text = item;
+        return (
+          <div key={`${item}_${index}`}>
+          <Link 
+            href={{pathname: '/results/',
+              query: {
+              type: 'filter',
+              keywords: item.replaceAll(' ', '_')
+              }
+            }}
+            >
+              <ListItem button onClick={handleClose} >
+                <ListItemText >
+                  <HistoryIcon color="disabled" style={{ float: 'left'}} />
+                   <span className={classes.history} > {text} </span>
+                </ListItemText>
+              </ListItem>
+            </Link>
+            <Divider />
+        </div>
+        )} 
+      )}
+      </List>
+      }
+       </>
+    </Dialog> 
+);
+}  

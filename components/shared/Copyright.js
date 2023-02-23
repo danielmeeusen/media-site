@@ -2,11 +2,10 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
 export default function Copyright() {
-  const site = useSite();
 
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      Copyright © {new Date().getFullYear()} Media Site Inc
+    <Typography variant="body2" color="textSecondary" align="center" style={{ marginTop: '5px' }}>
+      © {new Date().getFullYear()} Media Site
     </Typography>
   );
 }

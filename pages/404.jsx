@@ -1,11 +1,25 @@
 import Image from 'next/image';
-import { Box } from '@material-ui/core/';
+import Head from 'next/head';
+
+import { Box, Container } from '@material-ui/core/';
+
 
 export default function Custom404() {
   return (
-  <Box mt={15}>
-  <Image src="/image/tommyboy-whatyoudo.gif" alt="What'd you do?!?" width="498" height="280" />
-  <h1>404 - Page Not Found</h1>
-  </Box>
+    <>
+      <Head>
+        <title>Page Not Found</title>
+      </Head>
+      <Container component="main" maxWidth="md" align="center">
+        <Box style={{ marginTop: "15%" }}>
+          <Image 
+            src="/image/tommyboy-whatyoudo.gif" 
+            alt="What'd you do?!?" 
+            width="498" height="280" 
+            />
+          <h1>404 - Page Not Found</h1>
+        </Box>
+    </Container>
+  </>
   )
 }

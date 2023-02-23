@@ -1,23 +1,36 @@
-export async function findComments(db, postId, from, limit) {
+import { ObjectId } from 'mongodb';
+import { dbProjectionUsers } from '.';
+
+export async function findComments(db, postId, before, limit = 10) {
   return db
     .collection('comments')
-    .find({
-      postId,
-      ...(from && {
-        createdAt: {
-          $lte: from,
+    .aggregate([
+      {
+        $match: {
+          postId: new ObjectId(postId),
+          ...(before && { createdAt: { $lt: before } }),
         },
-      }),
-    })
-    .sort({ $natural: -1 })
-    .limit(limit)
+      },
+      { $sort: { _id: -1 } },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'creatorId',
+          foreignField: '_id',
+          as: 'creator',
+        },
+      },
+      { $unwind: '$creator' },
+      { $project: dbProjectionUsers('creator.') },
+    ])
     .toArray();
 }
 
 export async function insertComment(db, postId, { content, creatorId }) {
   const comment = {
     content,
-    postId,
+    postId: new ObjectId(postId),
     creatorId,
     createdAt: new Date(),
   };

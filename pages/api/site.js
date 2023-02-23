@@ -1,14 +1,16 @@
-import { findSite } from '@/api-lib/db';
-import { database } from '@/api-lib/middlewares';
-import { ncOpts } from '@/api-lib/nc';
 import nc from 'next-connect';
+
+import { findSite } from '@/api-lib/db';
+import { ncOpts } from '@/api-lib/nc';
+import { getMongoDb } from '@/api-lib/mongodb';
 
 const handler = nc(ncOpts);
 
-handler.use(database);
-
 handler.get(async (req, res) => {
-  const site = await findSite(req.db);
+  const db = await getMongoDb();
+
+  const site = await findSite(db);
+
   res.send({ site });
 });
 
