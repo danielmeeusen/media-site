@@ -84,10 +84,6 @@ export default function Contact() {
           Contact
         </Typography>
 
-        <Link href="https://epoch.com/billing_support/contact" variant="body1" target="_blank" >
-          For any billing/signup inquries please contact our billing agent here  
-        </Link>        
-
         <Box my={1} >
           <Msg msg={msg} />
         </Box>

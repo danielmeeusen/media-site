@@ -148,7 +148,7 @@ export default function MobileMenu() {
         <MobileFilterList toggleDrawer={toggleDrawer} filtername={'tags'} />
         <MobileFilterList toggleDrawer={toggleDrawer} filtername={'year'} />
 
-        <Link href="/about" >
+        <Link href="/about" onClick={toggleDrawer(false)} >
           <ListItem button >
             <ListItemIcon>
               <span className={classes.icon} > <DescriptionOutlinedIcon /> </span>
@@ -161,7 +161,7 @@ export default function MobileMenu() {
 
         <Divider />
 
-        <Link href="/contact">
+        <Link href="/contact" onClick={toggleDrawer(false)} >
           <ListItem button >
             <ListItemIcon>
               <span className={classes.icon} > <MailOutlinedIcon /> </span>
@@ -174,7 +174,7 @@ export default function MobileMenu() {
 
         <Divider/>  
 
-        <Link href="https://github.com/danielmeeusen/media-site" target="_new">
+        <Link href="https://github.com/danielmeeusen/media-site" target="_new" onClick={toggleDrawer(false)} >
           <ListItem button >
             <ListItemIcon>
               <span className={classes.icon} > <GitHubIcon /> </span>
@@ -200,7 +200,7 @@ export default function MobileMenu() {
 
         <Divider/>
 
-      <Link href="/privacy" >
+      <Link href="/privacy" onClick={toggleDrawer(false)} >
         <ListItem button >
           <ListItemIcon>
             <span className={classes.icon} > <VisibilityOffOutlinedIcon /> </span>

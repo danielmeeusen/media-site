@@ -19,6 +19,9 @@ export const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     maxHeight: 55,
   },
+  toolBar: {
+    minHeight: 55,
+  },
   menuButton: {
     marginRight: theme.spacing(1),
   },
@@ -60,7 +63,7 @@ export default function DeskTop() {
   return (
     <>
       <AppBar position="fixed" color="inherit" className={classes.appBar} >
-        <Toolbar style={{ minHeight: 55 }}>
+        <Toolbar className={classes.toolBar} >
 
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item xs={4}>
