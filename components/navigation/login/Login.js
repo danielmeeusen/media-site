@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '72vh',
   },
   submit: {
-    margin: theme.spacing(3, 0, 3),
+    margin: theme.spacing(3, 0, 2),
   },
   link: {
     cursor: 'pointer',
@@ -118,7 +118,7 @@ export default function Login({ ua, displayMode, handleChange }) {
         </Box>
         :
           <>
-        <Box mt={1} >
+        <Box>
           <Msg msg={msg} />
         </Box>
 

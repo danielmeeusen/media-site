@@ -93,18 +93,15 @@ export default function SignUp({ ip, ua, displayMode, handleChange }) {
       </Head>
       
       <Container component="main" maxWidth="sm" align="center">
+
         <div className={classes.paper}>
           <LockOpenOutlinedIcon fontSize="large" style={{marginBottom: 10 }} />
 
-          <Typography component="h1" variant="h5" style={{ marginBottom: 10 }}>
+          <Typography variant="h5" >
             Sign Up
           </Typography>
-
-          <Typography variant="body1">
-            Please login as normal if you were a member of the previous site.
-          </Typography>
           
-          <Box my={1}>
+          <Box>
             <Msg msg={msg} />
           </Box>
 
@@ -149,27 +146,17 @@ export default function SignUp({ ip, ua, displayMode, handleChange }) {
             <PasswordInput label="Confirm Password" id="confirmPassword" />
 
             <Box mt={2}>
-              <FormControlLabel
-                name="checked"
-                control={
-                  <Switch 
-                    color="primary"
-                    checked={checked} 
-                    onChange={() => {setChecked(!checked)}} 
-                  />}
-                label="Purchase Subscritpion"
-                />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Create Account
+              </Button>
             </Box>
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Create Account
-            </Button>
             <Typography 
               align="center" 
               onClick={ () => handleChange(null, 0) } 
