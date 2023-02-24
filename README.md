@@ -1,15 +1,15 @@
 ## Next.js Media Site
 
-- A template for server/client side rendering video/photo sharing platform similar to Youtube.com.
+- This site is meant to test the functionality and scalability of using Next.js as a social/media site.
 
-[Veiw demo on heroku](https://media-site.herokuapp.com/)
+[Veiw demo on render](https://media-site-dev.onrender.com/)
 
 ## Dependencies:
-
+- `
 - `@material-ui` - rapid component templating.
 - `react`, `react-dom` - v16.8 or higher required
 - `next` - v9.3 or above required for API Routes and data fetching.
-- `next-connect` - recommended if you want to use Express/Connect middleware and easier method routing.
+- `next-connect` - recommended if you want to use Express/Connect middleware and easier routing method.
 - `passport`, `passport-local` - authenticaiton.
 - `bcryptjs` - password hashing.
 - `next-session` - user session provider.

@@ -20,11 +20,10 @@ export async function sendMail({ from, to, subject, text, html, replyTo }) {
       text,
     });
   } catch (e) {
-    throw new Error(`Could not send email.`);
+    throw new Error(e);
   }
 }
 
 export const CONFIG = {
-  // TODO: Replace with the email you want to use to send email
-  from: nodemailerConfig?.auth?.user,
+  from: process.env.EMAIL,
 };

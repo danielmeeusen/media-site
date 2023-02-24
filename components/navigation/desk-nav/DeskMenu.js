@@ -115,19 +115,22 @@ export default function DeskMenu() {
       <Divider/>   
       
       {user?.watchlist &&
-        <Link href={'/results?type=watchlist'} >
-          <ListItem button >
-            <ListItemIcon>
-              <PlaylistPlayIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <span className={classes.link} > WatchList </span> 
-            </ListItemText>
-          </ListItem>
-        </Link>
+        <>
+          <Link href={'/results?type=watchlist'} >
+            <ListItem button >
+              <ListItemIcon>
+                <PlaylistPlayIcon />
+              </ListItemIcon>
+              <ListItemText>
+                <span className={classes.link} > WatchList </span> 
+              </ListItemText>
+            </ListItem>
+          </Link>
+
+          <Divider/>   
+        </>
       }
 
-      <Divider/>   
 
       <DeskFilterList filtername={'people'} />
       <DeskFilterList filtername={'tags'} />

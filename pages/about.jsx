@@ -8,36 +8,18 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import Link from '@/components/shared/Link';
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    textAlign: 'center',
-    margin: '40px 0px 20px 0px',
-    fontSize: '30px',
-    fontWeight: 500,
-    color: theme.palette.custom.seventyFive,
-  },
-  text: {
-    textAlign: 'center',
-    margin: '30px 0px',
-    fontSize: '18px',
-    fontWeight: 400,
-    color: theme.palette.custom.seventyFive,
-  },
-  features: {
-    textAlign: 'center',
-    margin: '30px 0px',
-    fontSize: '18px',
-    fontWeight: 500,
-    color: theme.palette.custom.seventyFive,
+  paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    fontSize: '16px',
   },
   list: {
-    margin: "0px -15px",
     listStyleType: 'circle',
-    fontSize: '18px',
-    fontWeight: 400,
-    color: theme.palette.custom.seventyFive
-  },
-  listItem: {
-    marginTop: '15px'
+    margin: "0px 0px 0px -20px",
+    '& li': {
+      marginBottom: '20px'
+    },
   }
 }));
 
@@ -50,53 +32,63 @@ export default function About() {
         <title>About</title>
       </Head>
 
-    <Container maxWidth="md" >
-      <Box className={classes.title}>
-        About
-      </Box>
+    <Container maxWidth="sm" >
+      <Box className={classes.paper}>
 
-      <div mb={4} className={classes.text} >
-          This site is meant to test the functionality and scalability of using Next.js as a social/media site.  
-      </div>
+        <DescriptionOutlinedIcon fontSize="large" style={{marginBottom: 10,  marginTop: "4%" }} />
+       
+        <Typography variant="h5">
+          About
+        </Typography>
 
-      <div className={classes.features}>
-          Features:
-      </div>
+        <Box my={2} align="center" >
+            This site is meant to test the functionality and scalability of using Next.js as a social/media site.  
+        </Box>
 
-      <ul className={classes.list}>
-        <li>
-          <Link href="https://nextjs.org/" target="_blank">Next.js</Link> v11 with intention of upgrading to v12 with <Link href="https://typescriptlang.org/" target="_blank">Typescript</Link>
-        </li>
-        <li>
-          <Link href="https://mui.com/" target="_blank">Material UI</Link> v4 with intention of upgrading to v5 along with <Link href="https://typescriptlang.org/" target="_blank">Typescript</Link>.
-        </li>
-        <li>
-          <Link href="https://www.mongodb.com/cloud/atlas" target="_blank">Mongodb Atlas</Link> for database and search indexing.
-        </li>
-        <li>
-          <Link href="https://github.com/hoangvvo/next-connect" target="_blank">Next-Connect</Link> for middleware.
-        </li>
-        <li>
-          <Link href="https://github.com/hoangvvo/next-session" target="_blank">Next-Session</Link> for independent authentication and session management.
-        </li>
-        <li>
-          <Link href="https://nodemailer.com/" target="_blank">Node-Mailer</Link> for email verification and recovery.
-        </li>
-        <li>
-          <Link href="https://www.bunny.net/" target="_blank">Bunny.net</Link> for media encoding and hosting.
-        </li>
-        <li>
-          <Link href="https://swr.vercel.app/" target="_blank">useSWR</Link> for data management.
-        </li>
-        <li>
-          PWA capable via <Link href="https://github.com/shadowwalker/next-pwa" target="_blank">Next-PWA</Link>.
-        </li>
-      </ul>
+        <Box my={1}>
+        <Typography variant="h6">
+            Features:
+          </Typography>
+        </Box>
 
-        <div className={classes.text} >
+        <ul className={classes.list}>
+          <li className={classes.item}>
+            <Link href="https://nextjs.org/" target="_blank">Next.js</Link> for performant serverless hybrid server side / client side rendering. 
+          </li>
+          <li>
+            <Link href="https://mui.com/" target="_blank">Material UI</Link> Component Library for rapid prototyping.
+          </li>
+          <li>
+            <Link href="https://github.com/hoangvvo/next-connect" target="_blank">Next-Connect</Link> for fast light JAM stack complient middleware.
+          </li>
+          <li>
+            <Link href="https://swr.vercel.app/" target="_blank">useSWR</Link> for hybrid state/data managment.
+          </li>
+          <li>
+            <Link href="https://github.com/hoangvvo/next-session" target="_blank">Next-Session</Link> for secure session management.
+          </li>
+          <li>
+            <Link href="https://www.passportjs.org/" target="_blank">Passport.js</Link> for independant secure authentication.
+          </li>
+          <li>
+            <Link href="https://www.mongodb.com/cloud/atlas" target="_blank">Mongodb Atlas</Link> for database and search indexing.
+          </li>
+          <li>
+            <Link href="https://nodemailer.com/" target="_blank">Node-Mailer</Link> for email verification and recovery.
+          </li>
+          <li>
+            <Link href="https://www.bunny.net/" target="_blank">Bunny.net</Link> for media encoding and hosting.
+          </li>
+          <li>
+            PWA capable via <Link href="https://github.com/shadowwalker/next-pwa" target="_blank">Next-PWA</Link>.
+          </li>
+        </ul>
+
+        <Box my={2} align="center" >
           Feel free to use the links in the left bar for more information.  
-        </div>
+        </Box>
 
+        </Box>
       </Container>
     </>
   );

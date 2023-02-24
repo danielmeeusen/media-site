@@ -146,16 +146,28 @@ export default function SignUp({ ip, ua, displayMode, handleChange }) {
             <PasswordInput label="Confirm Password" id="confirmPassword" />
 
             <Box mt={2}>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Create Account
-              </Button>
+              <FormControlLabel
+                name="checked"
+                control={
+                  <Switch 
+                    disabled
+                    color="primary"
+                    checked={checked} 
+                    onChange={() => {setChecked(!checked)}} 
+                  />}
+                label="Purchase Subscritpion"
+                />
             </Box>
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Create Account
+            </Button>
 
             <Typography 
               align="center" 

@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 
 import { Typography, Container, Box } from '@material-ui/core';
+import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 
 import Link from '@/components/shared/Link';
 import { useSite } from '@/lib/site/hooks';
@@ -18,6 +19,8 @@ export default function record() {
     <Container maxWidth="md" >
       
       <Box align="center" style={{ margin: "10% 0% 4% 0%"}} >
+      <VisibilityOffOutlinedIcon fontSize="large" style={{marginBottom: 10 }} />
+
         <Typography variant="h4">
           {site?.siteName} Privacy Policy
         </Typography>
@@ -34,7 +37,7 @@ export default function record() {
       </Box>
 
       <Typography variant="body1" align="center" >
-      {site?.siteName} only collects and stores usernames, email addresses passwords, and anonymous session data from its members. All data is deleted from {site?.siteName} servers when an account it deleted. 
+      {site?.siteName} only collects and stores usernames, email addresses, passwords, and anonymous session data from its members. All data is deleted from {site?.siteName} servers when an account is deleted. 
       </Typography>
 
       <Box align="center" style={{  margin: "5% 0% 1% 0%" }} >

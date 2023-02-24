@@ -75,17 +75,17 @@ export default function Contact() {
       <title>Contact</title>
     </Head>
 
-    <Container component="main" maxWidth="sm">            
+    <Container maxWidth="sm">            
             
       <div className={classes.paper}>
 
         <MailOutlineIcon fontSize="large" style={{marginBottom: 10,  marginTop: "5%" }} />
 
-        <Typography component="h1" variant="h5">
+        <Typography variant="h5">
           Contact
         </Typography>
 
-        <Box my={1}>
+        <Box>
           <Msg msg={msg} />
         </Box>
 
