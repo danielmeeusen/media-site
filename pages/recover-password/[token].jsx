@@ -193,7 +193,7 @@ export async function getServerSideProps(context) {
     'passwordReset'
   );
 
-  return { props: { token, valid: !!tokenDoc } };
+  return { props: { token: context.req.token, valid: !!tokenDoc } };
 }
 
 export default ResetPasswordTokenPage;

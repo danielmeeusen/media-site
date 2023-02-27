@@ -144,9 +144,7 @@ export default function MobileMenu() {
 
         <Divider/>    
 
-        <MobileFilterList toggleDrawer={toggleDrawer} filtername={'people'} />
         <MobileFilterList toggleDrawer={toggleDrawer} filtername={'tags'} />
-        <MobileFilterList toggleDrawer={toggleDrawer} filtername={'year'} />
 
         <Link href="/about" onClick={toggleDrawer(false)} >
           <ListItem button >

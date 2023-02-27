@@ -132,9 +132,7 @@ export default function DeskMenu() {
       }
 
 
-      <DeskFilterList filtername={'people'} />
       <DeskFilterList filtername={'tags'} />
-      <DeskFilterList filtername={'year'} />
 
       <Link href="/about" >
         <ListItem button >
