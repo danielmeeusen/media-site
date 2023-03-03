@@ -118,14 +118,13 @@ export async function updateUserById(db, userId, data) {
     .then(({ value }) => value);
 }
 
-export async function insertUser( db, { email, originalPassword, username, epoch, subscribed, lastChecked }) {
+export async function insertUser( db, { email, originalPassword, username, subscribed, lastChecked }) {
   const password = await bcrypt.hash(originalPassword, 10);
   const user = {
     username,
     email,
     watchlist: [],
     emailVerified: false,
-    epoch,
     lastChecked,
     subscribed,
     creator: false,

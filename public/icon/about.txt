@@ -1,6 +1,0 @@
-This favicon was generated using the following font:
-
-- Font Title: Alumni Sans Pinstripe
-- Font Author: Copyright 2014 The Alumni Sans Pinstripe Project Authors (https://github.com/googlefonts/alumni-sans-pinstripe)
-- Font Source: http://fonts.gstatic.com/s/alumnisanspinstripe/v1/ZgNNjOFFPq_AUJD1umyS30W-Xub8zD1ObhezYrVIpcDA5w.ttf
-- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))

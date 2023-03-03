@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Router from 'next/router';
 
 import { Container, Typography, Box, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core/';
-import SettingsIcon from '@material-ui/icons/Settings';
+import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { useCurrentUser, useSessions } from '@/lib/user/hooks';
@@ -35,9 +35,10 @@ export default function Settings() {
 
       <Container maxWidth='md'>
 
-      <SettingsIcon 
-        style={{ fontSize: '100px', margin: 'auto', display: 'block' }} 
-        color="secondary" 
+      <SettingsOutlinedIcon 
+        fontSize="large"
+        style={{ fontSize: '60px', margin: 'auto', display: 'block', marginTop: '7%' }} 
+        color="secondary"
       />
 
       <Typography variant="h6" style={{ marginBottom: 10 }} align="center" >

@@ -8,7 +8,6 @@ import { useTheme } from '@material-ui/core/styles';
 import { loadingContext } from '@/lib/AppContext';
 import { useSessions } from '@/lib/user/hooks';
 import { useCurrentUser } from '@/lib/user/hooks';
-import { fetcher } from '@/lib/fetch';
 
 import { MobileLayout, DeskLayout } from '@/components/layout'
 import { InstallPWA, DeviceDialog, Loading } from '@/components/shared';
@@ -36,18 +35,7 @@ export default function MainLayout({ children, ip, uaString }) {
     ua = parse(window.navigator.userAgent);
   }  
   let desk = ua ? ua.isDesktop : width.md;
-
-  const epochCheck = async () => {
-    const updatedUser = await fetcher('/api/user/epoch');
-    mutate(updatedUser);
-  }
   
-  if(user && !user.creator){
-    if(user?.lastChecked === '' ||  new Date(user?.lastChecked) < new Date().getTime() - (24*60*60*1000) || user?.lastChecked === undefined) {
-      epochCheck();
-    }
-  }
-
   return (
     <>
       <InstallPWA ua={ua} displayMode={displayMode} />

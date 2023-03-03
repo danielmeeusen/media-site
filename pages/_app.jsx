@@ -28,7 +28,6 @@ export default function MyApp(props) {
     <>   
       <Head>
         <title>MediaSite</title>
-        <link rel="preconnect" href="https://kitsch-images.b-cdn.net" />
         <Meta />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
 
@@ -37,19 +36,6 @@ export default function MyApp(props) {
         <meta {...og} />
         ))}
       </Head>   
-
-      {/* Google tag (gtag.js) */}
-      <Script src="https://www.googletagmanager.com/gtag/js?id=G-GYCFQXYZMM" strategy="afterInteractive" />
-
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments)}
-          gtag('js', new Date());
-
-          gtag('config', 'G-GYCFQXYZMM');
-        `}
-      </Script>
 
       <ContextWrapper>
         <ThemeProvider theme={darkTheme}>
