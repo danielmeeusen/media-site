@@ -7,7 +7,7 @@ import { searchApi, cancelApi } from '@/lib/user/utils';
 
 import { insertUser, updateUserById } from '@/api-lib/db';
 
-export async function epochCancel(db, user) {  
+export async function cancelSubscription(db, user) {  
   let { MemberId } = user?.epoch?.Customer;
   let cancelRes = await fetcher(cancelApi(MemberId));
   

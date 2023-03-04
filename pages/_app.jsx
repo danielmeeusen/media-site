@@ -8,7 +8,7 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { darkTheme, lightTheme } from '@/styles/themes';
 import { ContextWrapper } from '@/lib/AppContext';
 import ClientLayout from '@/components/layout/ClientLayout';
-import Meta from '@/components/shared/Meta';
+import MetaTags from '@/components/shared/MetaTags';
 
 export default function MyApp(props) {
   // The Component prop is the active page
@@ -28,7 +28,7 @@ export default function MyApp(props) {
     <>   
       <Head>
         <title>MediaSite</title>
-        <Meta />
+        <MetaTags />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
 
         
