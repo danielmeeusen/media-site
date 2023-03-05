@@ -8,7 +8,7 @@ import PlaylistPlayIcon from '@material-ui/icons/PlaylistPlay';
 import CloseIcon from '@material-ui/icons/Close';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import MailOutlinedIcon from '@material-ui/icons/MailOutlined';
-import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 
@@ -94,7 +94,20 @@ export default function MobileMenu() {
       <MobileFilterList toggleDrawer={toggleDrawer} filtername={'tags'} />
       <MobileFilterList toggleDrawer={toggleDrawer} filtername={'year'} />
 
-      <Link href="https://twitter.com/FetishKitsch" target="_new">
+      <Link href="/about" >
+        <ListItem button onClick={toggleDrawer(false)} >
+          <ListItemIcon>
+            <span className={classes.icon} > <DescriptionOutlinedIcon /> </span>
+          </ListItemIcon>
+          <ListItemText>
+            <span className={classes.link} > About </span> 
+          </ListItemText>
+        </ListItem>
+      </Link>
+
+      <Divider />
+
+      <Link href="https://twitter.com/DanMeeusen" target="_new">
         <ListItem button onClick={toggleDrawer(false)} >
           <ListItemIcon>
             <span className={classes.icon} > <TwitterIcon /> </span>
@@ -105,59 +118,46 @@ export default function MobileMenu() {
         </ListItem>
       </Link>
 
-      <Divider/>   
-
-      <Link href="/contact">
-        <ListItem button onClick={toggleDrawer(false)} >
-          <ListItemIcon>
-            <span className={classes.icon} > <MailOutlinedIcon /> </span>
-          </ListItemIcon>
-          <ListItemText>
-            <span className={classes.link} > Contact </span> 
-          </ListItemText>
-        </ListItem>
-      </Link>
-
-      <Divider/>   
-
-      <Link href="/abuse" >
-        <ListItem button onClick={toggleDrawer(false)} >
-          <ListItemIcon>
-            <span className={classes.icon} > <ReportProblemOutlinedIcon /> </span>
-          </ListItemIcon>
-          <ListItemText>
-            <span className={classes.link} > Report Abuse </span> 
-          </ListItemText>
-        </ListItem>
-      </Link>
-
       <Divider/>     
 
-      <Link href="/privacy" >
+      <Link href="https://github.com/danielmeeusen" target="_new">
         <ListItem button onClick={toggleDrawer(false)} >
           <ListItemIcon>
-            <span className={classes.icon} > <VisibilityOffOutlinedIcon /> </span>
+            <span className={classes.icon} > <GitHubIcon /> </span>
           </ListItemIcon>
           <ListItemText>
-            <span className={classes.link} > Privacy Policy </span> 
+            <span className={classes.link} > GitHub </span> 
           </ListItemText>
         </ListItem>
       </Link>
 
-      <Divider />
+    <Divider/>    
 
-      <Link href="/record" >
-        <ListItem button onClick={toggleDrawer(false)} >
-          <ListItemIcon>
-            <span className={classes.icon} > <DescriptionOutlinedIcon /> </span>
-          </ListItemIcon>
-          <ListItemText>
-            <span className={classes.link} > 2257 Record </span> 
-          </ListItemText>
-        </ListItem>
-      </Link>
+    <Link href="/contact">
+      <ListItem button onClick={toggleDrawer(false)} >
+        <ListItemIcon>
+          <span className={classes.icon} > <MailOutlinedIcon /> </span>
+        </ListItemIcon>
+        <ListItemText>
+          <span className={classes.link} > Contact </span> 
+        </ListItemText>
+      </ListItem>
+    </Link>
 
-      <Divider />
+    <Divider/>  
+
+    <Link href="/privacy" >
+      <ListItem button onClick={toggleDrawer(false)} >
+        <ListItemIcon>
+          <span className={classes.icon} > <VisibilityOffOutlinedIcon /> </span>
+        </ListItemIcon>
+        <ListItemText>
+          <span className={classes.link} > Privacy Policy </span> 
+        </ListItemText>
+      </ListItem>
+    </Link>
+
+    <Divider />
 
       </List>
 
