@@ -8,8 +8,7 @@ import { passport } from '@/api-lib/auth';
 import { ncOpts } from '@/api-lib/nc';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { auths } from '@/api-lib/middlewares';
-import { epochLogin } from '@/api-lib/db';
-import { throttleLogins, findUserByLogin } from '@/api-lib/db'
+import { throttleLogins } from '@/api-lib/db'
 
 const handler = nc(ncOpts);
 
@@ -20,7 +19,8 @@ handler.post(
     const db = await getMongoDb();
 
     let clientIp = requestIp.getClientIp(req); 
-    if(clientIp == '::1') clientIp = '76.169.76.173';
+
+    if(clientIp == '::1') clientIp = '75.82.58.187';
     req.body.ip = clientIp;
 
     const loginCount = await throttleLogins(db, clientIp, req.body.login);
@@ -28,17 +28,6 @@ handler.post(
     if(loginCount && loginCount?.attempt > 20) {
       res.status(429).send('Too many login attempts');
       return;
-    }
-    const user = await findUserByLogin(db, req.body.login);
-    if(!user) {
-      const epoch = await epochLogin(db, req.body.login, req.body.password);
-      if(epoch === 'match') {
-        res.status(401).send('Epoch user account found but passwords do not match');
-        return;
-      } 
-      await fetch(`${process.env.WEB_URI}/api/user/email/verify`, {
-        method: 'POST',
-      });
     }
     const authFunc = await passport.authenticate('local');
     authFunc(req, res, next);

@@ -2,17 +2,17 @@ import React, { useState, useContext } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 
-import { loadingContext } from '@/lib/AppContext';
-import { findTokenByIdAndType } from '@/api-lib/db';
-import Link from '@/components/shared/Link';
-import Msg from '@/components/shared/Msg';
-import PasswordInput from '@/components/shared/PasswordInput';
-import { getMongoDb } from '@/api-lib/mongodb';
-
 import { Container, Box, Typography, Button } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
-
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
+import { getMongoDb } from '@/api-lib/mongodb';
+import { loadingContext, loginDialogContext } from '@/lib/AppContext';
+import { findTokenByIdAndType } from '@/api-lib/db';
+import PasswordInput from '@/components/shared/PasswordInput';
+import Link from '@/components/shared/Link';
+import Msg from '@/components/shared/Msg';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,25 +32,22 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
   const classes = useStyles();
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useContext(loadingContext);
+  const [ loginDialog, setLoginDialog ] = useContext(loginDialogContext);
   const [msg, setMsg] = useState({ message: '', isError: false });
-
 
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
-
       const body = {
         newPassword: event.currentTarget.newPassword.value,
         confirmNewPassword: event.currentTarget.confirmNewPassword.value,
         token,
       };
-
       const res = await fetch('/api/user/password/reset', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-
       if (res.status === 200) {
         setSuccess(true);
         setLoading(false);
@@ -90,17 +87,16 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
             You may now login with your new password:  
           </Typography>
         
-          <Link href="/login" >
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              className={classes.submit}
-            >
-              Login
-            </Button>
-          </Link>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            className={classes.submit}
+            onClick={ () => setLoginDialog({ open: true, tab: 0 }) }
+          >
+            Login
+          </Button>
 
         </Container>
       </> 
@@ -193,7 +189,7 @@ export async function getServerSideProps(context) {
     'passwordReset'
   );
 
-  return { props: { token: context.req.token, valid: !!tokenDoc } };
+  return { props: { token: context.params.token, valid: !!tokenDoc } };
 }
 
 export default ResetPasswordTokenPage;

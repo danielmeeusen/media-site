@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Router from 'next/router';
 import { setCookie } from 'cookies-next';
 
-import { Box, Button, TextField, Typography, Container, FormControlLabel, Switch } from '@material-ui/core';
+import { Box, Button, TextField, Typography, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOutlined';
 
@@ -37,9 +37,8 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp({ ip, ua, displayMode, handleChange }) {
   const classes = useStyles();
   const [ user, { mutate } ] = useCurrentUser();
-  const [ msg, setMsg ] = useState({ message: '', isError: false });
-  const [ checked, setChecked ] = useState(false);
   const [ loading, setLoading ] = useContext(loadingContext);
+  const [ msg, setMsg ] = useState({ message: '', isError: false });
   const [ loginDialog, setLoginDialog ] = useContext(loginDialogContext);
   
   async function sendVerification() {
@@ -144,20 +143,6 @@ export default function SignUp({ ip, ua, displayMode, handleChange }) {
             <PasswordInput label="Password" id="password" />
 
             <PasswordInput label="Confirm Password" id="confirmPassword" />
-
-            <Box mt={2}>
-              <FormControlLabel
-                name="checked"
-                control={
-                  <Switch 
-                    disabled
-                    color="primary"
-                    checked={checked} 
-                    onChange={() => {setChecked(!checked)}} 
-                  />}
-                label="Purchase Subscritpion"
-                />
-            </Box>
 
             <Button
               type="submit"

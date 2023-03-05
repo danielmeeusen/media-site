@@ -1,6 +1,6 @@
 ## Next.js Media Site
 
-- This site is meant to test the functionality and scalability of using Next.js as a social/media site.
+- This site is meant to test the functionality and scalability building a social media site with Next.js.
 
 [Veiw demo on render](https://media-site-dev.onrender.com/)
 

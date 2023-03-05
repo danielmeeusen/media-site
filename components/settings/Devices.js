@@ -43,7 +43,7 @@ export default function Devices(props) {
   return (
     <div className={classes.root}>
       <Typography align="center">
-        - Users are limited to 5 devices per account. 
+        - Users are limited to 7 devices per account. 
       </Typography>
       <Typography align="center">
         - If you are seeing devices you do not recognize we recommend you: 
@@ -55,32 +55,35 @@ export default function Devices(props) {
         {sessions.map(s => {
           return (
             <div key={s._id}>
-            <Divider />
-            <ListItem>  
-              <ListItemIcon  >
-                {s?.session?.ua?.isMobile ? <SmartphoneIcon color="secondary" fontSize="large" /> : <ComputerIcon color="secondary" fontSize="large" />}
-              </ListItemIcon>
-              <ListItemText
-                primary={`${s?.session?.ua?.os}, ${s?.session?.ua?.browser}`}
-                secondary={`${s?.session?.geo?.city}, ${s?.session?.geo?.country}`}
-              />
-              { getCookie('cid') === s?.session?.cid ? 
-              <ListItemText 
-              style={{ textAlign: 'right' }}
-              secondary={'Current Device'}
-              />
-              :
-              <ListItemSecondaryAction >
-                <IconButton 
-                  edge="end" 
-                  aria-label="delete" 
-                  onClick={() => deleteSession(s._id)}
+              <Divider />
+              <ListItem>  
+                <ListItemIcon style={{ marginLeft: '-10px' }} >
+                  {s?.session?.ua?.isMobile ? <SmartphoneIcon color="secondary" fontSize="large" /> : <ComputerIcon color="secondary" fontSize="large" />}
+                </ListItemIcon>
+                <ListItemText
+                  primary={`${s?.session?.ua?.os}, ${s?.session?.ua?.browser}`}
+                  secondary={`${s?.session?.geo?.city}, ${s?.session?.geo?.country}`}
+                />
+                { getCookie('cid') === s?.session?.cid ? 
+                <ListItemText 
+                  style={{ textAlign: 'right' }}
+                  secondary={'Current Device'}
+                />
+                :
+                <ListItemSecondaryAction
+                  style={{ cursor: 'pointer', marginRight: '-5px' }}
+                  onClick={() => deleteSession(s._id)} 
+                >
+                  remove
+                  <IconButton 
+                    edge="end" 
+                    aria-label="delete"                   
                   >
-                  <CloseIcon fontSize="large" />
-                </IconButton>
-              </ListItemSecondaryAction>
-              }
-            </ListItem>
+                    <CloseIcon fontSize="large" />
+                  </IconButton>
+                </ListItemSecondaryAction>
+                }
+              </ListItem>
             </div>
           )}
         )}
