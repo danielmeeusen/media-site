@@ -68,7 +68,7 @@ export default function Login({ ua, displayMode, handleChange }) {
     } else if (res.status === 429) {
       setLoading(false);
       setLocked(true);
-    } else{
+    } else {
       setLoading(false);
       setMsg({ message: await res.text(), isError: true })
     }
@@ -97,7 +97,7 @@ export default function Login({ ua, displayMode, handleChange }) {
       {locked ? 
         <Box my={3}>
         <Typography variant="h6" style={{ marginBottom: 20 }} >
-          Sorry but you are only allowed 20 login attempts per day 😥
+          Sorry but you are only allowed 10 login attempts per day 😥
         </Typography>
 
         <Typography variant="body1" style={{ marginBottom: 20 }} >

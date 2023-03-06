@@ -25,14 +25,21 @@ handler.post(
 
     const loginCount = await throttleLogins(db, clientIp, req.body.login);
     
-    if(loginCount && loginCount?.attempt > 20) {
+    if(loginCount && loginCount?.attempt > 8) {
       res.status(429).send('Too many login attempts');
       return;
     }
-    const authFunc = await passport.authenticate('local');
-    authFunc(req, res, next);
+    passport.authenticate('local', function(err, user, info) {
+      if (err) return next(err)
+      if (info) return res.status(401).send(`${loginCount ? 9-loginCount?.attempt : 9} Attempts Left`);
+      req.logIn(user, function(err) {
+        if (err) return next(err)
+        return next();
+      });
+    })(req, res, next);
 },
 (req, res) =>{
+  console.log(req.user);
   const cid = nanoid(16);
   req.session.cid = cid;
   req.user.cid = cid;

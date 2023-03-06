@@ -20,9 +20,9 @@ passport.deserializeUser((req, id, done) => {
 passport.use(
   new LocalStrategy(
     { usernameField: 'login', passReqToCallback: true },
-    async (req, login, password, done) => {
-      const db = await getMongoDb();      
-      
+    async (req, login, password, done) => {   
+
+      const db = await getMongoDb();            
       const user = await findUserByLoginAndPassword(db, login, password);
       
       if (user) done(null, user);

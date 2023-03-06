@@ -8,6 +8,8 @@ import {
   findAndDeleteTokenByIdAndType,
   findUserByEmail,
   UNSAFE_updateUserPassword,
+  clearLogins,
+  findUserById
 } from '@/api-lib/db';
 import { composeEmail } from '@/api-lib/emails';
 import { CONFIG as MAIL_CONFIG, sendMail } from '@/api-lib/mail';
@@ -26,8 +28,10 @@ handler.post(
     if (!isEmail(req.body.email)) {
       res.status(400).send('Email address is invalid');
     }
+
     const email = normalizeEmail(req.body.email);
     const user = await findUserByEmail(db, email);
+
     if (!user) {
       res.status(401).send('No account found with that Email');
       return;
@@ -66,8 +70,7 @@ handler.put(
     let { newPassword, confirmNewPassword } = req.body;
     
     let passwordRes = await validatePassword(db, newPassword, confirmNewPassword);
-
-    if (passwordRes.status !== 200) {
+    if(passwordRes.status !== 200) {
       res.status(passwordRes.status).send(passwordRes.message);
       return;
     }
@@ -76,15 +79,22 @@ handler.put(
       req.body.token,
       'passwordReset'
     );
-    if (!deletedToken) {
+    if(!deletedToken) {
       res.status(403).send('This link may have been expired.');
       return;
     }
-    await UNSAFE_updateUserPassword(
+    const user = await findUserById(db, deletedToken.creator_id);
+        
+    if(!user) {
+      res.status(403).send('no user account found');
+      return;
+    }
+    let newPass = await UNSAFE_updateUserPassword(
       db,
       deletedToken.creator_id,
       req.body.newPassword
     );
+    let clear = await clearLogins(db, user);
     res.end('ok');
   }
 );
