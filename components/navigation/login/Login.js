@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '72vh',
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 3),
+    borderRadius: '30px'
   },
   link: {
     cursor: 'pointer',
@@ -68,7 +69,7 @@ export default function Login({ ua, displayMode, handleChange }) {
     } else if (res.status === 429) {
       setLoading(false);
       setLocked(true);
-    } else {
+    } else{
       setLoading(false);
       setMsg({ message: await res.text(), isError: true })
     }
@@ -118,7 +119,7 @@ export default function Login({ ua, displayMode, handleChange }) {
         </Box>
         :
           <>
-        <Box>
+        <Box mt={1} >
           <Msg msg={msg} />
         </Box>
 

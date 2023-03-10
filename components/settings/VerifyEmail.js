@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   verifyButton: {
     width: '100%',
     margin: 0,
+    borderRadius: '30px',
   }
 }));
 

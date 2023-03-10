@@ -2,31 +2,14 @@ import React, { useState, useContext } from 'react';
 import Head from 'next/head';
 
 import { Container, Typography, Button, TextField, Box } from '@material-ui/core/';
-import { makeStyles } from '@material-ui/core/styles';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 import { loadingContext } from '@/lib/AppContext';
 import Msg from '@/components/shared/Msg';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 3),
-  },
-}));
-
 export default function recoverPassword() {
-  const classes = useStyles();
   const [msg, setMsg] = useState({ message: '', isError: false });
   const [loading, setLoading] = useContext(loadingContext);
-
 
   async function resetPassword(e) {
     e.preventDefault(e);
@@ -54,11 +37,12 @@ export default function recoverPassword() {
       <Head>
       <title>Recover Password</title>
       </Head>
+
       <Container component="main" maxWidth="sm" align="center" >
 
-          <VpnKeyIcon  fontSize="large" style={{ marginBottom: 10, marginTop: "5%" }} />
+          <VpnKeyIcon  fontSize="large" style={{ marginTop: "3%" }} />
 
-          <Typography variant="h5" style={{ marginBottom: 10 }}>
+          <Typography variant="h5" >
             Recover Password
           </Typography>
 
@@ -71,7 +55,7 @@ export default function recoverPassword() {
           <Msg msg={msg} />
         </Box>
 
-        <form className={classes.form} onSubmit={resetPassword}>
+        <form onSubmit={resetPassword}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -89,7 +73,7 @@ export default function recoverPassword() {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            style={{ borderRadius: '30px', margin: '20px 0px' }}
           >
             Send Recovery Email
           </Button>

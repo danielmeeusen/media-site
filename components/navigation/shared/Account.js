@@ -11,7 +11,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import MailIcon from '@material-ui/icons/Mail';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import DescriptionIcon from '@material-ui/icons/Description';
-import ReportProblemIcon from '@material-ui/icons/ReportProblem';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import TwitterIcon from '@material-ui/icons/Twitter';
 
 import { useCurrentUser } from '@/lib/user/hooks';
@@ -152,33 +152,33 @@ export default function Account({ toggleDrawer }) {
 
         <Divider/>  
 
-        <Link href="/abuse" >
+        <Link href="https://github.com/danielmeeusen" target="_new">
           <ListItem button  onClick={ toggleDrawer(false)} >
-          <span className={classes.icon}> <ReportProblemIcon /> </span>
+          <span className={classes.icon}> <GitHubIcon /> </span>
             <ListItemText>
-              <span className={classes.link} > Report Abuse </span> 
+              <span className={classes.link} > GitHub </span> 
             </ ListItemText>
           </ListItem>
         </Link>  
 
         <Divider/>   
 
-        <Link href="/privacy" >
+        <Link href="/about" >
           <ListItem button  onClick={ toggleDrawer(false)} >
-            <span className={classes.icon}> <VisibilityOffIcon /> </span>
-            <ListItemText >
-              <span className={classes.link} > Privacy Policy </span> 
+            <span className={classes.icon}> <DescriptionIcon /> </span>
+            <ListItemText>
+              <span className={classes.link} > About </span> 
             </ListItemText>
           </ListItem>
         </Link>
 
         <Divider/>
-
-        <Link href="/record" >
+        
+        <Link href="/privacy" >
           <ListItem button  onClick={ toggleDrawer(false)} >
-            <span className={classes.icon}> <DescriptionIcon /> </span>
-            <ListItemText>
-              <span className={classes.link} > 2257 Record </span> 
+            <span className={classes.icon}> <VisibilityOffIcon /> </span>
+            <ListItemText >
+              <span className={classes.link} > Privacy Policy </span> 
             </ListItemText>
           </ListItem>
         </Link>

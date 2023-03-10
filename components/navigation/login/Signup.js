@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Router from 'next/router';
 import { setCookie } from 'cookies-next';
 
-import { Box, Button, TextField, Typography, Container } from '@material-ui/core';
+import { Box, Button, TextField, Typography, Container, FormControlLabel, Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOutlined';
 
@@ -11,7 +11,6 @@ import { useCurrentUser } from '@/lib/user/hooks';
 import { loadingContext, loginDialogContext } from '@/lib/AppContext';
 import Msg from '@/components/shared/Msg';
 import PasswordInput from '@/components/shared/PasswordInput';
-import { subscribeLink } from '@/lib/user/utils';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    borderRadius: '30px',
   },
   link: {
     cursor: 'pointer',
@@ -37,8 +37,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp({ ip, ua, displayMode, handleChange }) {
   const classes = useStyles();
   const [ user, { mutate } ] = useCurrentUser();
-  const [ loading, setLoading ] = useContext(loadingContext);
   const [ msg, setMsg ] = useState({ message: '', isError: false });
+  const [ checked, setChecked ] = useState(false);
+  const [ loading, setLoading ] = useContext(loadingContext);
   const [ loginDialog, setLoginDialog ] = useContext(loginDialogContext);
   
   async function sendVerification() {
@@ -59,6 +60,7 @@ export default function SignUp({ ip, ua, displayMode, handleChange }) {
       confirmEmail: e.currentTarget.confirmEmail.value,
       password: e.currentTarget.password.value,
       confirmPassword: e.currentTarget.confirmPassword.value,
+      subscribed: checked,
       displayMode,
       ua,
       ip,
@@ -72,9 +74,6 @@ export default function SignUp({ ip, ua, displayMode, handleChange }) {
       const userObj = await res.json();
       setCookie('cid', userObj.user.cid);
       mutate(userObj);
-      if(checked == true) {
-        window.open(subscribeLink(userObj.user), '_newtab');
-      }
       await sendVerification();
       Router.push(`/send-verification/${userObj.user.username}`);
       setLoading(false);
@@ -92,11 +91,10 @@ export default function SignUp({ ip, ua, displayMode, handleChange }) {
       </Head>
       
       <Container component="main" maxWidth="sm" align="center">
-
         <div className={classes.paper}>
           <LockOpenOutlinedIcon fontSize="large" style={{marginBottom: 10 }} />
 
-          <Typography variant="h5" >
+          <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
           
@@ -144,6 +142,19 @@ export default function SignUp({ ip, ua, displayMode, handleChange }) {
 
             <PasswordInput label="Confirm Password" id="confirmPassword" />
 
+            <Box mt={2}>
+              <FormControlLabel
+                name="checked"
+                control={
+                  <Switch 
+                    color="primary"
+                    checked={checked} 
+                    onChange={() => {setChecked(!checked)}} 
+                  />}
+                label="Simulate Paid Subscirption"
+                />
+            </Box>
+
             <Button
               type="submit"
               fullWidth
@@ -153,7 +164,7 @@ export default function SignUp({ ip, ua, displayMode, handleChange }) {
             >
               Create Account
             </Button>
-
+            
             <Typography 
               align="center" 
               onClick={ () => handleChange(null, 0) } 

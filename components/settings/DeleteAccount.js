@@ -68,6 +68,7 @@ export default function DeleteAccount() {
                 variant="contained"
                 color="primary"
                 type="submit"
+                style={{ borderRadius: '30px' }}
                 >
                 Delete User Account
               </Button>
@@ -103,6 +104,7 @@ export default function DeleteAccount() {
             color="primary"
             className={classes.submit}
             onClick={ () => setConfirm(true) }
+            style={{ borderRadius: '30px' }}
             >
             Delete User Account
           </Button>

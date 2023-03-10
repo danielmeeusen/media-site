@@ -1,39 +1,32 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+import Router from 'next/router';
 
 import { Container, Box, Typography, Button } from '@material-ui/core/';
-import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 import { getMongoDb } from '@/api-lib/mongodb';
 import { loadingContext, loginDialogContext } from '@/lib/AppContext';
+import { useCurrentUser } from '@/lib/user/hooks';
 import { findTokenByIdAndType } from '@/api-lib/db';
 import PasswordInput from '@/components/shared/PasswordInput';
 import Link from '@/components/shared/Link';
 import Msg from '@/components/shared/Msg';
 
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 3),
-  },
-}));
-
 const ResetPasswordTokenPage = ({ valid, token }) => {
-  const classes = useStyles();
-  const [success, setSuccess] = useState(false);
+  const [ user ] = useCurrentUser();
   const [loading, setLoading] = useContext(loadingContext);
+  const [success, setSuccess] = useState(false);
   const [ loginDialog, setLoginDialog ] = useContext(loginDialogContext);
   const [msg, setMsg] = useState({ message: '', isError: false });
+
+  useEffect(() => {
+    if (user) {
+      Router.push('/');
+    }
+  }, [user]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -68,9 +61,9 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
 
         <Container component="main" maxWidth="sm" align="center">
 
-          <LockOutlinedIcon  fontSize="large" style={{ marginBottom: 10, marginTop: "5%" }} />
+          <LockOutlinedIcon  fontSize="large" style={{ marginTop: "3%" }} />
 
-          <Typography variant="body1" style={{ marginBottom: 10 }}>
+          <Typography variant="body1">
             You have successfully created a new password! 
           </Typography>
 
@@ -92,9 +85,9 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
             variant="contained"
             color="primary"
             fullWidth
-            className={classes.submit}
             onClick={ () => setLoginDialog({ open: true, tab: 0 }) }
-          >
+            style={{ borderRadius: '30px', margin: '20px 0px' }}
+            >
             Login
           </Button>
 
@@ -108,7 +101,7 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
 
           <Container component="main" maxWidth="sm" align="center">
 
-            <LockOutlinedIcon fontSize="large" style={{ marginBottom: 10, marginTop: "5%" }} />
+            <LockOutlinedIcon fontSize="large" style={{ marginTop: "3%" }} />
 
             <Typography variant="h5" style={{ marginBottom: 10 }}>
               Create New Password
@@ -122,7 +115,7 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
               <Msg msg={msg} />
             </Box>
 
-            <form className={classes.form} onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
 
               <PasswordInput label="New Password" id="newPassword" />
 
@@ -133,8 +126,8 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
                 fullWidth
                 variant="contained"
                 color="primary"
-                className={classes.submit}
-              >
+                style={{ borderRadius: '30px', margin: '20px 0px' }}
+                >
                 Set New Password
               </Button>
             </form>
@@ -148,7 +141,7 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
 
         <Container component="main" maxWidth="sm" align="center">
 
-          <LockOutlinedIcon  fontSize="large" style={{ marginBottom: 10, marginTop: "5%" }} />
+          <LockOutlinedIcon  fontSize="large" style={{ marginTop: "3%" }} />
 
           <Typography variant="h5" style={{ marginBottom: 20 }}>
             Link Expired
@@ -164,11 +157,12 @@ const ResetPasswordTokenPage = ({ valid, token }) => {
         
           <Link href="/recover-password" >
             <Button
+              fullWidth
               type="submit"
               variant="contained"
               color="primary"
-              className={classes.submit}
-            >
+              style={{ borderRadius: '30px', margin: '20px 0px' }}
+              >
               Request New Password
             </Button>
           </Link>

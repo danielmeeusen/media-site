@@ -70,7 +70,9 @@ export default function SendVerification({ user, email }) {
         <Button 
           variant="contained"
           color="primary"
-          onClick={sendVerificationEmail}>
+          onClick={sendVerificationEmail}
+          style={{ borderRadius: '30px' }}
+          >
             Resend Verification Email
         </Button>
         </>

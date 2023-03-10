@@ -42,12 +42,30 @@ export default function About() {
         </Typography>
 
         <Box my={2} align="center" >
-            This site is meant to test the functionality and scalability of using Next.js as a social/media site.  
+            This site is meant to test the functionality and scalability of using Next.js for a social/media site.  
         </Box>
 
         <Box my={1}>
         <Typography variant="h6">
             Features:
+          </Typography>
+        </Box>
+
+        <ul className={classes.list}>
+          <li className={classes.item}>
+            Hybrid Server Side and Client Side Rendering for optimum SEO and user privacy.
+          </li>
+          <li>
+            Client IP and User Agent finger printing for better device tracking to increase account security. 
+          </li>
+          <li>
+            Self managed authentication and session managment.
+          </li>
+        </ul>
+
+        <Box my={1}>
+        <Typography variant="h6">
+            Built With:
           </Typography>
         </Box>
 

@@ -6,9 +6,10 @@ import { loginDialogContext } from '@/lib/AppContext';
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    marginLeft: theme.spacing(1), 
+    marginLeft: '5px', 
     fontSize: 12,
     fontWeight: "bold",
+    borderRadius: '30px'
   }
 }));
 

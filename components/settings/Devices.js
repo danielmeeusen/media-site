@@ -1,6 +1,6 @@
 import { getCookie } from 'cookies-next';
 
-import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, IconButton, Divider, Typography, } from '@material-ui/core';
+import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, IconButton, Divider, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ComputerIcon from '@material-ui/icons/Computer';
 import SmartphoneIcon from '@material-ui/icons/Smartphone';
@@ -41,10 +41,12 @@ export default function Devices(props) {
   }
 
   return (
-    <div className={classes.root}>
+    <Box mt={-1} style={{ width: '100%'}}>
+
       <Typography align="center">
         - Users are limited to 7 devices per account. 
       </Typography>
+
       <Typography align="center">
         - If you are seeing devices you do not recognize we recommend you: 
       </Typography>
@@ -88,6 +90,6 @@ export default function Devices(props) {
           )}
         )}
         </List>
-    </div>
+    </Box>
   );
 }

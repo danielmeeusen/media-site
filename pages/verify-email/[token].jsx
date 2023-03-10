@@ -1,204 +1,91 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
-import Router from 'next/router';
+import useSWR from 'swr';
 
-import { Container, Box, Typography, Button } from '@material-ui/core/';
-import { makeStyles } from '@material-ui/core/styles';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { Typography, Container, Box, Button } from '@material-ui/core';
 
+import { fetcher } from '@/lib/fetch';
 import { getMongoDb } from '@/api-lib/mongodb';
-import { loadingContext, loginDialogContext } from '@/lib/AppContext';
 import { useCurrentUser } from '@/lib/user/hooks';
-import { findTokenByIdAndType } from '@/api-lib/db';
-import PasswordInput from '@/components/shared/PasswordInput';
+import { findAndDeleteTokenByIdAndType, updateUserById } from '@/api-lib/db';
 import Link from '@/components/shared/Link';
-import Msg from '@/components/shared/Msg';
 
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 3),
-  },
-}));
-
-const ResetPasswordTokenPage = ({ valid, token }) => {
-  const classes = useStyles();
+export default function EmailVerifyPage({ success }) {
   const [ user ] = useCurrentUser();
-  const [loading, setLoading] = useContext(loadingContext);
-  const [success, setSuccess] = useState(false);
-  const [ loginDialog, setLoginDialog ] = useContext(loginDialogContext);
-  const [msg, setMsg] = useState({ message: '', isError: false });
-
-  useEffect(() => {
-    if (user) {
-      Router.push('/');
-    }
-  }, [user]);
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setLoading(true);
-      const body = {
-        newPassword: event.currentTarget.newPassword.value,
-        confirmNewPassword: event.currentTarget.confirmNewPassword.value,
-        token,
-      };
-      const res = await fetch('/api/user/password/reset', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      if (res.status === 200) {
-        setSuccess(true);
-        setLoading(false);
-      } else {
-        setMsg({ message: await res.text(), isError: true });
-        setLoading(false);
-      }
-    }
+  const { data } = useSWR('/api/user/epoch/subscribe', fetcher);
 
   return (
     <>
-      {valid ? 
-        success ? 
-        <>
-        <Head>
-          <title>New Password Created</title>
-        </Head>
-
-        <Container component="main" maxWidth="sm" align="center">
-
-          <LockOutlinedIcon  fontSize="large" style={{ marginBottom: 10, marginTop: "5%" }} />
-
-          <Typography variant="body1" style={{ marginBottom: 10 }}>
-            You have successfully created a new password! 
-          </Typography>
-
-          <Box my={3}>
-            <Image 
-              src="/image/thumbsup.gif" 
-              alt="Kid giving thumbs up infront of computer" 
-              width="320" 
-              height="240" 
-            />
+      <Head>
+        <title>Email Verified</title>
+      </Head>
+      <Container maxWidth="md" >
+      
+        <Box mt={20} align="center">
+         
+          {success
+            ? 
+              <>
+                <Box sx={{fontSize: "22px"}}>
+                  Thank you for verifying your email address!
+                </Box>
+                {!user.subscribed &&
+                <Box my={5}>
+                <Link href={ data?.link || '/404' } target="_blank" >
+                  <Button variant="contained" color="primary" style={{ borderRadius: '30px' }}>
+                    FINISH PURCHASING SUBSCRIPTION
+                  </Button>
+                </Link>
+                </Box>
+                }
+              </>
+            :
+            <>
+              <Box my={5}>
+                <Typography variant="h6">
+                  Sorry this link has expired.
+                </Typography>  
+              </Box>  
+              
+              { user &&
+                <Link href={`/send-verification/${user?.username}`} >
+                  <Button variant="contained" color="primary" style={{ borderRadius: '30px' }}>
+                    SEND NEW VERIFICATION EMAIL
+                  </Button>
+                </Link>
+              }
+            </>
+            }
           </Box>
 
-          <Typography variant="body1" align="center" style={{ marginBottom: 10 }} >
-            You may now login with your new password:  
+        <Box>
+          <Typography variant="body1" align="center" paragraph>
+          
           </Typography>
-        
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            className={classes.submit}
-            onClick={ () => setLoginDialog({ open: true, tab: 0 }) }
-          >
-            Login
-          </Button>
-
-        </Container>
-      </> 
-      :
-        <>
-          <Head>
-          <title>Create New Password</title>
-          </Head>
-
-          <Container component="main" maxWidth="sm" align="center">
-
-            <LockOutlinedIcon fontSize="large" style={{ marginBottom: 10, marginTop: "5%" }} />
-
-            <Typography variant="h5" style={{ marginBottom: 10 }}>
-              Create New Password
-            </Typography>
-
-            <Typography variant="body1" align="center" >
-              Please choose a new password: 
-            </Typography>
-
-            <Box mt={1} >
-              <Msg msg={msg} />
-            </Box>
-
-            <form className={classes.form} onSubmit={handleSubmit}>
-
-              <PasswordInput label="New Password" id="newPassword" />
-
-              <PasswordInput label="Confirm New Password" id="confirmNewPassword" />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Set New Password
-              </Button>
-            </form>
-        </Container>
+        </Box>
+      </Container>
+             
     </>
-      :
-    <>
-        <Head>
-          <title>Link Expired</title>
-        </Head>
-
-        <Container component="main" maxWidth="sm" align="center">
-
-          <LockOutlinedIcon  fontSize="large" style={{ marginBottom: 10, marginTop: "5%" }} />
-
-          <Typography variant="h5" style={{ marginBottom: 20 }}>
-            Link Expired
-          </Typography>
-
-          <Typography variant="body1" align="center" style={{ marginBottom: 20 }} >
-            Sorry it appears your link has expired. 
-          </Typography>
-
-          <Typography variant="body1" align="center" style={{ marginBottom: 20 }} >
-            Please click the link below to create a new recovery request:  
-          </Typography>
-        
-          <Link href="/recover-password" >
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Request New Password
-            </Button>
-          </Link>
-
-        </Container>
-      </> 
-      }
-  </>
   );
-};
-
-export async function getServerSideProps(context) {  
-  const db = await getMongoDb();
-
-  const tokenDoc = await findTokenByIdAndType(
-    db,
-    context.params.token,
-    'passwordReset'
-  );
-
-  return { props: { token: context.params.token, valid: !!tokenDoc } };
 }
 
-export default ResetPasswordTokenPage;
+export async function getServerSideProps(context) {
+  const db = await getMongoDb();
+
+  const { token } = context.query;
+
+  const deletedToken = await findAndDeleteTokenByIdAndType(
+    db,
+    token,
+    'emailVerify'
+  );
+
+  if (!deletedToken) return { props: { success: false } };
+
+  await updateUserById(db, deletedToken.creator_id, {
+    emailVerified: true,
+  });
+
+  return { props: { success: true } };
+}

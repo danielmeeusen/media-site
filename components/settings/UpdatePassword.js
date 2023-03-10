@@ -1,24 +1,14 @@
 import React, { useState, useContext } from 'react';
 
 import { Box, Button, Typography } from '@material-ui/core/';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { loadingContext } from '@/lib/AppContext';
 import Msg from '@/components/shared/Msg';
 import PasswordInput from '@/components/shared/PasswordInput';
 import Link from '@/components/shared/Link';
 
-const useStyles = makeStyles((theme) => ({
-  form: {
-    width: '100%',
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 3),
-  },
-}));
 
 export default function UpdatePassword() {
-  const classes = useStyles();
   const [loading, setLoading] = useContext(loadingContext);
   const [msg, setMsg] = useState({ message: '', isError: false });
 
@@ -52,7 +42,7 @@ export default function UpdatePassword() {
         <Msg msg={msg} />
       </Box>
 
-      <form className={classes.form} onSubmit={handleUpdatePassword}>
+      <form onSubmit={handleUpdatePassword}>
 
         <PasswordInput label="Current Password" id="oldPassword" />
 
@@ -61,12 +51,12 @@ export default function UpdatePassword() {
         <PasswordInput label="Confirm New Password" id="confirmNewPassword" />
 
         <Button
-          type="submit"
           fullWidth
+          type="submit"
           variant="contained"
           color="primary"
-          className={classes.submit}
-        >
+          style={{ borderRadius: '30px', margin: '20px 0px 20px 0px'}}
+          >
           Set New Password
         </Button>
       </form>
@@ -80,3 +70,4 @@ export default function UpdatePassword() {
     </Box>
   );
 };
+15

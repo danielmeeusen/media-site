@@ -10,12 +10,13 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import { fetcher } from '@/lib/fetch';
 
+
 export const useStyles = makeStyles((theme) => ({
   search: {
     display: 'flex',
-    height: 38,
+    height: 40,
     width: '100%',
-    borderRadius: '10px',
+    borderRadius: '30px',
     backgroundColor: theme.palette.boxShadow.searchBackground,
     '&:hover': {
       backgroundColor: theme.palette.boxShadow.searchBackgroundHover,
@@ -23,7 +24,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   input: {
     flex: 1,
-    marginLeft: '15px',
+    marginLeft: '20px',
     paddingTop: '4px',
     color: theme.palette.text.primary,
     "&:-webkit-autofill": {
@@ -34,21 +35,24 @@ export const useStyles = makeStyles((theme) => ({
       WebkitTextFillColor: theme.palette.text.primary,
     },
   },
-  searchButton: {
-    padding: 10,
+  clearButton: {
     color: theme.palette.custom.seventyFive,
     '&:hover': {
       color: theme.palette.text.primary,
+      backgroundColor: theme.palette.boxShadow.searchBackgroundHover,
+    },
+  },
+  searchButton: {
+    marginRight: '5px',
+    color: theme.palette.custom.seventyFive,
+    '&:hover': {
+      color: theme.palette.text.primary,
+      backgroundColor: theme.palette.boxShadow.searchBackgroundHover,
     },
   },
   divider: {
-    height: 28,
-    margin: 4,
-  },
-  button: {
-    marginLeft: theme.spacing(1),
-    fontSize: 12,
-    fontWeight: "bold",
+    margin: '4px 0px',
+    height: '32px',
   },
 }));
 
@@ -140,7 +144,7 @@ export default function DeskSearch() {
       {searchValue &&
         <IconButton
           color="primary"
-          className={classes.searchButton}
+          className={classes.clearButton}
           aria-label="clear search"
           onClick={handleClear}
         >

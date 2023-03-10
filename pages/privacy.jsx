@@ -21,7 +21,7 @@ export default function record() {
       <Box align="center" style={{ margin: "10% 0% 4% 0%"}} >
       <VisibilityOffOutlinedIcon fontSize="large" style={{marginBottom: 10 }} />
 
-        <Typography variant="h4">
+        <Typography variant="h5">
           {site?.siteName} Privacy Policy
         </Typography>
       </Box>

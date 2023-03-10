@@ -20,10 +20,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     bottom: '0',
     zIndex: theme.zIndex.modal + 1,
-    maxHeight: '45px'
+    maxHeight: '48px'
   },
   icon: {
-    marginTop: '-10px',
     fontSize: '28px',
   }
 }));
@@ -35,7 +34,6 @@ export default function MobileBottom() {
   const [ mobileBottom, setMobileBottom ] = useContext(mobileBottomContext);
   const [ loginDialog, setLoginDialog ] = useContext(loginDialogContext);
   const [ editDialog, setEditDialog ] = useContext(editDialogContext);
-  let history = JSON.parse(sessionStorage.getItem('history')) || [];
   
   const handleChange = (event, newValue) => {
     setEditDialog(false);
@@ -54,11 +52,7 @@ export default function MobileBottom() {
       if(Router.pathname == '/') {
         window.scrollTo({top: 0, behavior: 'smooth'})
       } else {
-        if(history[1] == '/') {
-          Router.back();
-        } else {
-          Router.push('/');
-        }
+        Router.push('/');
       }
     } else if(!user && mobileBottom == "Account" && newValue == 'Home') {
       setLoginDialog({ ...loginDialog, open: false })
@@ -73,22 +67,30 @@ export default function MobileBottom() {
   }
 
   return (
-    <BottomNavigation position="relative" value={mobileBottom} onChange={handleChange} className={classes.bottomNav} >
+    <BottomNavigation 
+      showLabels
+      value={mobileBottom} 
+      onChange={handleChange} 
+      className={classes.bottomNav} 
+    >
 
       <BottomNavigationAction 
         value="Menu" 
+        label=""
         aria-label="Menu"
         icon={<MenuIcon className={classes.icon} />} 
         className={classes.action}/>
 
       <BottomNavigationAction 
         value="Home" 
+        label=""
         aria-label="Home"
         icon={<HomeIcon className={classes.icon} />}/>
 
       {user?.creator &&
       <BottomNavigationAction 
         value="Add" 
+        label=""
         aria-label="Add"
         icon={<AddIcon className={classes.icon}/>} 
         className={classes.action}/>
@@ -96,12 +98,14 @@ export default function MobileBottom() {
 
       <BottomNavigationAction 
         value="Search" 
+        label=""
         aria-label="Search"
         icon={<SearchIcon className={classes.icon} />} 
         className={classes.action} />
 
       <BottomNavigationAction 
         value="Account" 
+        label=""
         aria-label="Account"
         icon={<AccountCircleIcon className={classes.icon} />} 
         className={classes.action}/>

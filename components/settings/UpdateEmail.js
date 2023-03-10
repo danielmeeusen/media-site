@@ -1,22 +1,14 @@
 import React, { useState, useContext, useRef } from 'react';
 
 import { Button, TextField, Box } from '@material-ui/core/';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { useCurrentUser } from '@/lib/user/hooks';
 import { loadingContext } from '@/lib/AppContext';
 import Msg from '@/components/shared/Msg';
 
-const useStyles = makeStyles((theme) => ({
-  submit: {
-    margin: theme.spacing(3, 0, 3),
-    width: '100%',
-  }
-}));
 
 export default function UpdateEmail() {
   const email = useRef(null);
-  const classes = useStyles();
   const [user, { mutate }] = useCurrentUser();
   const [loading, setLoading] = useContext(loadingContext);
   const [msg, setMsg] = useState({ message: '', isError: false });
@@ -58,8 +50,7 @@ export default function UpdateEmail() {
     } else {
       setMsg({ message: await res.text(), isError: true });
       setLoading(false);
-    }
-    
+    }    
   };
 
   return (
@@ -68,7 +59,7 @@ export default function UpdateEmail() {
         <Msg msg={msg} />
       </Box>
 
-    <form onSubmit={updateEmail} className={classes.form}>
+    <form onSubmit={updateEmail}>
       <TextField
         required
         fullWidth
@@ -80,10 +71,11 @@ export default function UpdateEmail() {
         inputRef={email}
       />
       <Button
+        fullWidth
         type="submit"
         variant="contained"
         color="primary"
-        className={classes.submit}
+        style={{ borderRadius: '30px', margin: '25px 0px 10px 0px'}}
       >
         Update Email
       </Button>

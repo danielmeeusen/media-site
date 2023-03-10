@@ -60,8 +60,8 @@ export default function ManageSubscription() {
           fullWidth
           variant="contained"
           color="primary"
-          className={classes.submit}
           onClick={cancelSubscription}
+          style={{ borderRadius: '30px' }}
           >
           Yes Cancel Subscription
         </Button>
@@ -106,6 +106,7 @@ export default function ManageSubscription() {
               variant="contained"
               color="primary"
               onClick={ () => setConfirm(true) }
+              style={{ borderRadius: '30px' }}
               >
                 Cancel Subscription
               </Button>
@@ -117,6 +118,7 @@ export default function ManageSubscription() {
               color="primary"
               href={subscribe}
               target="_blank"
+              style={{ borderRadius: '30px' }}
               >
                 Subscribe
               </Button>

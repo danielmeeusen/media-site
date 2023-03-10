@@ -4,31 +4,14 @@ import Router from 'next/router';
 // import ReCAPTCHA from "react-google-recaptcha";
 
 import { Box, Button, TextField, Grid, Typography, Container } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 import { useCurrentUser } from '@/lib/user/hooks';
 import { loadingContext } from '@/lib/AppContext';
-import Link from '../components/shared/Link';
 import Msg from '@/components/shared/Msg';
 
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-  },
-  submit: {
-    margin: theme.spacing(5, 0, 2),
-  },
-}));
-
 export default function Contact() {
-  const classes = useStyles();
   const [ user ] = useCurrentUser();
   const [msg, setMsg] = useState({ message: '', isError: false });
   const [loading, setLoading] = useContext(loadingContext);
@@ -75,13 +58,12 @@ export default function Contact() {
       <title>Contact</title>
     </Head>
 
-    <Container maxWidth="sm">            
+    <Container component="main" maxWidth="sm">            
             
-      <div className={classes.paper}>
+      <div style={{ textAlign: 'center' }}>
+          <MailOutlineIcon fontSize="large" style={{ marginTop: "3%" }} />
 
-        <MailOutlineIcon fontSize="large" style={{marginBottom: 10,  marginTop: "5%" }} />
-
-        <Typography variant="h5">
+        <Typography component="h1" variant="h5" style={{ marginBottom: 10 }}>
           Contact
         </Typography>
 
@@ -89,9 +71,8 @@ export default function Contact() {
           <Msg msg={msg} />
         </Box>
 
-        <form className={classes.form} onSubmit={handleSubmit}>          
+        <form onSubmit={handleSubmit}>          
           <Grid container spacing={4} justifyContent="center">
-
             <Grid item xs={12}>
               <TextField
                 defaultValue={user?.email}
@@ -120,13 +101,13 @@ export default function Contact() {
 
             <Grid item xs={12}>
               <TextField
+                defaultValue={user ? user?.username : ''}
                 variant="outlined"
                 margin="normal"
                 fullWidth
                 name="username"
                 label="User Name"
                 autoComplete="username"
-                defaultValue={user ? user?.username : ''}
                 type="username"
               />
             </Grid>            
@@ -167,16 +148,16 @@ export default function Contact() {
           </Grid> */}
 
           <Button
-            className={classes.submit}
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
+            style={{ borderRadius: '30px', margin: '30px 0px' }}
           >
             Send
           </Button>
-        </form>
 
+        </form>
       </div>
     </Container>
     </>
