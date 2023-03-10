@@ -83,7 +83,7 @@ export default function DeskPostTile({ post, type }) {
   const [ loaded, setLoaded ] = useState(false);
   const [ progress, setProgress ] = useState(0);
   const [ hover, setHover ] = useState(false);
-  const { _id, videoThumbnail, title, people, publishDate, promoVideo } = post;  
+  const { _id, videoThumbnail, title, people, publishDate, promoVideo, videoLength } = post;  
   var timer;
 
   const overImage = async () => {
@@ -161,7 +161,7 @@ export default function DeskPostTile({ post, type }) {
         )}
 
       <Typography variant="body2" className={classes.date}>
-        {publishDate}
+        {`${publishDate} - ${Math.ceil(videoLength/60)} min`}
       </Typography>    
     </Box>
     );

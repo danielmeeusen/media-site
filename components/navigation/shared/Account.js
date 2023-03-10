@@ -100,7 +100,7 @@ export default function Account({ toggleDrawer }) {
         <Divider/> 
 
         <Link href="/settings" >
-          <ListItem button onClick={ toggleDrawer(false) } >
+          <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
             <span className={classes.icon}> <SettingsIcon /> </span>
             <ListItemText>
               <span className={classes.link}> Settings </span> 
@@ -110,18 +110,18 @@ export default function Account({ toggleDrawer }) {
 
         <Divider/>             
           
-        <ListItem button onClick={ toggleDrawer('logout') } >
+        <ListItem button onClick={ toggleDrawer('logout') } className={classes.menuItem} >
           <span className={classes.logoutIcon}> <LockIcon /> </span>
-            <ListItemText >
-              <span className={classes.logout}> Logout </span> 
-            </ListItemText>
+          <ListItemText >
+            <span className={classes.logout}> Logout </span> 
+          </ListItemText>
         </ListItem>
 
         <Divider />          
 
         <Link href="/settings" >
-          <ListItem button  onClick={ toggleDrawer('subscriptions') } >
-          <span className={classes.icon}> <CreditCardIcon /> </span>
+          <ListItem button onClick={toggleDrawer('subscriptions')} className={classes.menuItem} >
+            <span className={classes.icon}> <CreditCardIcon /> </span>
             <ListItemText>
               <span className={classes.link} > Subscriptions </span> 
             </ ListItemText>
@@ -131,8 +131,8 @@ export default function Account({ toggleDrawer }) {
         <Divider/>
 
         <Link href="/contact" >
-          <ListItem button  onClick={ toggleDrawer(false)} >
-          <span className={classes.icon}> <MailIcon /> </span>
+          <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
+            <span className={classes.icon}> <MailIcon /></span>
             <ListItemText>
               <span className={classes.link} > Contact </span> 
             </ ListItemText>
@@ -142,8 +142,8 @@ export default function Account({ toggleDrawer }) {
         <Divider/>  
 
         <Link href="https://twitter.com/danmeeusen" target="_new">
-          <ListItem button >
-              <span className={classes.icon} > <TwitterIcon /> </span>
+          <ListItem button className={classes.menuItem} >
+            <span className={classes.icon} > <TwitterIcon /> </span>
             <ListItemText>
               <span className={classes.link} > Twitter </span> 
             </ListItemText>
@@ -153,10 +153,10 @@ export default function Account({ toggleDrawer }) {
         <Divider/>  
 
         <Link href="https://github.com/danielmeeusen" target="_new">
-          <ListItem button  onClick={ toggleDrawer(false)} >
-          <span className={classes.icon}> <GitHubIcon /> </span>
-            <ListItemText>
-              <span className={classes.link} > GitHub </span> 
+          <ListItem button className={classes.menuItem} >
+            <span className={classes.icon}> <GitHubIcon /> </span>
+              <ListItemText>
+                <span className={classes.link} > GitHub </span> 
             </ ListItemText>
           </ListItem>
         </Link>  
@@ -164,7 +164,7 @@ export default function Account({ toggleDrawer }) {
         <Divider/>   
 
         <Link href="/about" >
-          <ListItem button  onClick={ toggleDrawer(false)} >
+          <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
             <span className={classes.icon}> <DescriptionIcon /> </span>
             <ListItemText>
               <span className={classes.link} > About </span> 
@@ -175,7 +175,7 @@ export default function Account({ toggleDrawer }) {
         <Divider/>
         
         <Link href="/privacy" >
-          <ListItem button  onClick={ toggleDrawer(false)} >
+          <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
             <span className={classes.icon}> <VisibilityOffIcon /> </span>
             <ListItemText >
               <span className={classes.link} > Privacy Policy </span> 

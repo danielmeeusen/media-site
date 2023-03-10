@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   menuItem: {
-    textAlign: 'right',
+    borderRadius: "10px",
   },
   link: {
     color: theme.palette.text.primary,
@@ -81,7 +81,7 @@ export default function DeskMenu() {
       <DeskFilterList filtername={'year'} />
 
       <Link href="/about" >
-        <ListItem button >
+        <ListItem button className={classes.menuItem} >
           <ListItemIcon>
             <span className={classes.icon} > <DescriptionOutlinedIcon /> </span>
           </ListItemIcon>
@@ -94,7 +94,7 @@ export default function DeskMenu() {
       <Divider />
 
       <Link href="https://twitter.com/DanMeeusen" target="_new">
-        <ListItem button >
+        <ListItem button className={classes.menuItem} >
           <ListItemIcon>
             <span className={classes.icon} > <TwitterIcon /> </span>
           </ListItemIcon>
@@ -107,7 +107,7 @@ export default function DeskMenu() {
       <Divider/>     
 
       <Link href="https://github.com/danielmeeusen" target="_new">
-        <ListItem button >
+        <ListItem button className={classes.menuItem} >
           <ListItemIcon>
             <span className={classes.icon} > <GitHubIcon /> </span>
           </ListItemIcon>
@@ -120,7 +120,7 @@ export default function DeskMenu() {
     <Divider/>    
 
     <Link href="/contact">
-      <ListItem button >
+      <ListItem button className={classes.menuItem} >
         <ListItemIcon>
           <span className={classes.icon} > <MailOutlinedIcon /> </span>
         </ListItemIcon>
@@ -133,7 +133,7 @@ export default function DeskMenu() {
     <Divider/>  
 
     <Link href="/privacy" >
-      <ListItem button >
+      <ListItem button className={classes.menuItem} >
         <ListItemIcon>
           <span className={classes.icon} > <VisibilityOffOutlinedIcon /> </span>
         </ListItemIcon>

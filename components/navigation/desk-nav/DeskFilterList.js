@@ -21,7 +21,11 @@ const useStyles = makeStyles((theme) => ({
   link: {
     fontSize: '16px',
     color: theme.palette.text.primary,
-    paddingLeft: '30px',
+    paddingLeft: '35px',
+    borderRadius: "10px"
+  },
+  menuItem: {
+    borderRadius: "10px",
   },
   skeleton: {
     marginLeft: '40px',
@@ -30,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   showMore: {
     fontSize: '16px',
+    borderRadius: "10px"
   },
   icon: {
     color: theme.palette.custom.sixtyFive,
@@ -65,7 +70,7 @@ export default function DeskFilterList({ filtername }) {
           const text = item.name.replaceAll('_', ' ');
           return (
             <Link href={`/results?type=filter&keywords=${item.name}`} key={item._id} >
-              <ListItem button>
+              <ListItem button className={classes.link} >
                 <ListItemText >
                   <span className={classes.link} > { text } </span>
                 </ListItemText>
@@ -87,7 +92,7 @@ export default function DeskFilterList({ filtername }) {
             const text = item.name.replaceAll('_', ' ');
             return (
               <Link href={`/results?type=filter&keywords=${item.name}`} key={item._id} >
-                <ListItem button>
+                <ListItem button className={classes.menuItem} >
                   <ListItemText >
                     <span className={classes.link} > { text } </span>
                   </ListItemText>
@@ -100,12 +105,12 @@ export default function DeskFilterList({ filtername }) {
 
       </List>
 
-      <ListItem button onClick={handleClick} >
+      <ListItem button onClick={handleClick} className={classes.showMore} >
       <ListItemText 
           primary={open ? 
-          <span className={classes.showMore}>show less</span>
+          <span>show less</span>
           : 
-           <span className={classes.showMore}>show more</span>
+           <span>show more</span>
           } 
           align={"center"} 
           />

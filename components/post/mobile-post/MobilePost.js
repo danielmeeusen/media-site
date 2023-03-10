@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MobilePost({ post, desk }) {
   const classes = useStyles();
-  let { tags, publishDate, people } = post;
+  let { tags, publishDate, people, videoLength } = post;
   const title = post.title.replaceAll('_', ' ');
   const query = {
     type: 'more',

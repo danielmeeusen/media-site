@@ -78,7 +78,7 @@ export default function MobilePostTile({ post, type }) {
   const [ prevVideo, setPrevVideo ] = useContext(prevVideoContext);
   const [ loaded, setLoaded ] = useState(false);
   const [ progress, setProgress ] = useState(0);
-  let { _id, title, people, publishDate, promoVideo, videoThumbnail } = post;
+  let { _id, title, people, publishDate, promoVideo, videoThumbnail, videoLength } = post;
   let timer;
 
   useEffect(() => {
@@ -180,7 +180,7 @@ export default function MobilePostTile({ post, type }) {
       </Box>
 
       <Typography className={classes.date}>
-        {publishDate}
+        {`${publishDate} - ${Math.ceil(videoLength/60)} min`}
       </Typography>    
     </Box>
     );
