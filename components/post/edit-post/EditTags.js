@@ -19,7 +19,7 @@ export default function EditTags({ add }) {
   
   const handleTags = async (e, v) => {
     if(!add) setEditPost({...editPost, tags: editPost.tags.filter(e => isNaN(e))})
-    if(v) v = formatTag(v);
+    if(v) v = await formatTag(v);
     if(add){
       if(v && (newPost.tags.indexOf(v) < 0)) {
         let newTags = newPost.tags;

@@ -12,9 +12,9 @@ import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined'
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 
 import { useCurrentUser } from '@/lib/user/hooks';
-import { deskMenuContext } from '@/lib/AppContext';
+import { deskMenuContext, mobileBottomContext } from '@/lib/AppContext';
 import Sort from '@/components/navigation/shared/Sort';
-import DeskFilterList from './DeskFilterList';
+import MenuFilterList from '@/components/navigation/shared/MenuFilterList';
 import Copyright from '@/components/shared/Copyright';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   menuItem: {
-    borderRadius: "10px",
+    borderRadius: "30px",
   },
   link: {
     color: theme.palette.text.primary,
@@ -45,6 +45,14 @@ export default function DeskMenu() {
   const classes = useStyles();
   const [ user, { mutate } ] = useCurrentUser();
   const [ deskMenu, setdeskMenu ] = useContext(deskMenuContext);  
+  const [ mobileBottom, setMobileBottom ] = useContext(mobileBottomContext);
+
+  const toggleDrawer = (open) => (event) => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      setMobileBottom('Home');
+    }
+    setMobileBottom('Home');
+  };
 
   return (
     <Drawer
@@ -57,7 +65,7 @@ export default function DeskMenu() {
 
       <List dense>
 
-      <Sort />
+      <Sort toggleDrawer={toggleDrawer} />
 
       <Divider/>   
       
@@ -74,11 +82,9 @@ export default function DeskMenu() {
         </Link>
       }
 
-      <Divider/>   
-
-      <DeskFilterList filtername={'people'} />
-      <DeskFilterList filtername={'tags'} />
-      <DeskFilterList filtername={'year'} />
+      <MenuFilterList toggleDrawer={toggleDrawer} filtername={'people'} />
+      <MenuFilterList toggleDrawer={toggleDrawer} filtername={'tags'} />
+      <MenuFilterList toggleDrawer={toggleDrawer} filtername={'year'} />
 
       <Link href="/about" >
         <ListItem button className={classes.menuItem} >
@@ -91,8 +97,6 @@ export default function DeskMenu() {
         </ListItem>
       </Link>
 
-      <Divider />
-
       <Link href="https://twitter.com/DanMeeusen" target="_new">
         <ListItem button className={classes.menuItem} >
           <ListItemIcon>
@@ -103,8 +107,6 @@ export default function DeskMenu() {
           </ListItemText>
         </ListItem>
       </Link>
-
-      <Divider/>     
 
       <Link href="https://github.com/danielmeeusen" target="_new">
         <ListItem button className={classes.menuItem} >
@@ -117,8 +119,6 @@ export default function DeskMenu() {
         </ListItem>
       </Link>
 
-    <Divider/>    
-
     <Link href="/contact">
       <ListItem button className={classes.menuItem} >
         <ListItemIcon>
@@ -129,8 +129,6 @@ export default function DeskMenu() {
         </ListItemText>
       </ListItem>
     </Link>
-
-    <Divider/>  
 
     <Link href="/privacy" >
       <ListItem button className={classes.menuItem} >

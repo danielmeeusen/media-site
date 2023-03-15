@@ -28,6 +28,9 @@ export const darkTheme = createTheme({
       }
     },
   },
+  shape: {
+    borderRadius: 15
+  },
   shadows: Array(36).fill("none"),
   palette: {
     type: 'dark',

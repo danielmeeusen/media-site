@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
   subscription: {
     color: theme.palette.custom.seventyFive,
   },
+  menuItem: {
+    borderRadius: "30px",
+  },
   link: {
     color: theme.palette.text.primary,
     fontSize: '16px',

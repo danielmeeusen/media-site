@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import Link from '@/components/shared/Link';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +15,7 @@ import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import { mobileBottomContext } from '@/lib/AppContext';
 import { useCurrentUser } from '@/lib/user/hooks';
 import Sort from '@/components/navigation/shared/Sort';
-import MobileFilterList from './MobileFilterList';
+import MenuFilterList from '@/components/navigation/shared/MenuFilterList';
 import Copyright from '@/components/shared/Copyright';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,8 +24,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '70px',
   },
   menuItem: {
-    fontSize: '17px', 
-    textAlign: 'right',
+    borderRadius: "30px"
   },
   link: {
     color: theme.palette.text.primary,
@@ -40,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MobileMenu() {
   const classes = useStyles();
-  const [ mobileBottom, setMobileBottom ] = useContext(mobileBottomContext);
   const [ user, { mutate } ] = useCurrentUser();
+  const [ mobileBottom, setMobileBottom ] = useContext(mobileBottomContext);
 
   const toggleDrawer = (open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -71,13 +70,11 @@ export default function MobileMenu() {
       
       <Divider/>    
       
-      <Sort />
-
-      <Divider/>    
+      <Sort toggleDrawer={toggleDrawer} />
 
       {user?.watchlist &&
         <Link href={'/results?type=watchlist'} >
-          <ListItem button onClick={toggleDrawer(false)} >
+          <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
             <ListItemIcon>
               <PlaylistPlayIcon />
             </ListItemIcon>
@@ -90,12 +87,12 @@ export default function MobileMenu() {
 
       <Divider/>    
 
-      <MobileFilterList toggleDrawer={toggleDrawer} filtername={'people'} />
-      <MobileFilterList toggleDrawer={toggleDrawer} filtername={'tags'} />
-      <MobileFilterList toggleDrawer={toggleDrawer} filtername={'year'} />
+      <MenuFilterList toggleDrawer={toggleDrawer} filtername={'people'} />
+      <MenuFilterList toggleDrawer={toggleDrawer} filtername={'tags'} />
+      <MenuFilterList toggleDrawer={toggleDrawer} filtername={'year'} />
 
       <Link href="/about" >
-        <ListItem button onClick={toggleDrawer(false)} >
+        <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
           <ListItemIcon>
             <span className={classes.icon} > <DescriptionOutlinedIcon /> </span>
           </ListItemIcon>
@@ -108,7 +105,7 @@ export default function MobileMenu() {
       <Divider />
 
       <Link href="https://twitter.com/DanMeeusen" target="_new">
-        <ListItem button onClick={toggleDrawer(false)} >
+        <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
           <ListItemIcon>
             <span className={classes.icon} > <TwitterIcon /> </span>
           </ListItemIcon>
@@ -121,7 +118,7 @@ export default function MobileMenu() {
       <Divider/>     
 
       <Link href="https://github.com/danielmeeusen" target="_new">
-        <ListItem button onClick={toggleDrawer(false)} >
+        <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
           <ListItemIcon>
             <span className={classes.icon} > <GitHubIcon /> </span>
           </ListItemIcon>
@@ -134,7 +131,7 @@ export default function MobileMenu() {
     <Divider/>    
 
     <Link href="/contact">
-      <ListItem button onClick={toggleDrawer(false)} >
+      <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
         <ListItemIcon>
           <span className={classes.icon} > <MailOutlinedIcon /> </span>
         </ListItemIcon>
@@ -147,7 +144,7 @@ export default function MobileMenu() {
     <Divider/>  
 
     <Link href="/privacy" >
-      <ListItem button onClick={toggleDrawer(false)} >
+      <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
         <ListItemIcon>
           <span className={classes.icon} > <VisibilityOffOutlinedIcon /> </span>
         </ListItemIcon>

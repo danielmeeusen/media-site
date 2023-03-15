@@ -3,10 +3,10 @@ import React, { useState, useContext } from 'react';
 import { ListItem, ListItemText, ListItemIcon, Menu, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import SortIcon from '@material-ui/icons/Sort';
+import ArrowUpwardRoundedIcon from '@material-ui/icons/ArrowUpwardRounded';
+import ArrowDownwardRoundedIcon from '@material-ui/icons/ArrowDownwardRounded';
+import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
+import SortRoundedIcon from '@material-ui/icons/SortRounded';
 
 import { sortContext } from '@/lib/AppContext';
 
@@ -20,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
   },
   menuItem: {
     textAlign: 'right',
+    borderRadius: "30px",
+
   },
   link: {
     color: theme.palette.text.primary,
@@ -27,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Sort() {
+export default function Sort({ toggleDrawer }) {
   const classes = useStyles();
   const [ sort, setSort ] = useContext(sortContext);
   const [ anchorEl, setAnchorEl ] = useState(null);
@@ -39,8 +41,8 @@ export default function Sort() {
 
   return (
     <>
-      <ListItem button onClick={ (e) => setAnchorEl(e.currentTarget) } >
-        <SortIcon />
+      <ListItem button onClick={(e) => setAnchorEl(e.currentTarget)} className={classes.menuItem} >
+        <SortRoundedIcon />
         <ListItemText 
           align="center"
           primary={
@@ -54,7 +56,7 @@ export default function Sort() {
           } 
           />
         <ListItemIcon>
-          { sort == 'blend' ? <TrendingUpIcon /> : sort == "new" ? <ArrowDownwardIcon /> : <ArrowUpwardIcon /> }
+          { sort == 'blend' ? <TrendingUpRoundedIcon /> : sort == "new" ? <ArrowDownwardRoundedIcon /> : <ArrowUpwardRoundedIcon /> }
         </ListItemIcon>
       </ListItem>
 
@@ -65,15 +67,16 @@ export default function Sort() {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={ ()=> setAnchorEl(null) }
+        onClick={ toggleDrawer(false) }
         >
-        <MenuItem onClick={() => handleSort('new')} > 
-          <ListItemText className={classes.menuItem}> Newest First <ArrowDownwardIcon /> </ListItemText>
+        <MenuItem onClick={() => handleSort('new')}  className={classes.menuItem} > 
+          <ListItemText> Newest First <ArrowDownwardRoundedIcon style={{marginBottom: '-5px'}} /> </ListItemText>
         </MenuItem>
-        <MenuItem onClick={() => handleSort('blend')} >
-          <ListItemText className={classes.menuItem}>Blend <TrendingUpIcon /> </ListItemText>
+        <MenuItem onClick={() => handleSort('blend')} className={classes.menuItem} >
+          <ListItemText> Blend <TrendingUpRoundedIcon style={{marginBottom: '-5px'}} /> </ListItemText>
         </MenuItem>
-        <MenuItem onClick={() => handleSort('old')} >
-          <ListItemText className={classes.menuItem}> Oldest First <ArrowDownwardIcon /> </ListItemText>
+        <MenuItem onClick={() => handleSort('old')} className={classes.menuItem} >
+          <ListItemText> Oldest First <ArrowUpwardRoundedIcon style={{marginBottom: '-5px'}} /> </ListItemText>
         </MenuItem>
       </Menu>      
     </>

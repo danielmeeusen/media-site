@@ -17,7 +17,7 @@ export default function EditPeople({ add }) {
   const allPeople = data?.map(i=>i.name);
 
   const handlePeople = async (e,v) => {
-    if(v) v = formatTag(v);
+    if(v) v = await formatTag(v);
     
     if(add){
       if(v && (newPost.people.indexOf(v) < 0)) {

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
 import Head from 'next/head';
-import date from 'date-and-time';
 import { parse } from 'next-useragent';
 
 import { useMediaQuery } from '@material-ui/core';
@@ -14,12 +13,14 @@ import EditDialog from '@/components/post/edit-post/EditDialog';
 import { useCurrentUser } from '@/lib/user/hooks';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { findPostById } from '@/api-lib/db';
+import { formatOG } from '@/lib/post';
 
 export default function Post({ post, uaString }) {
   const theme = useTheme();
   const [ user ] = useCurrentUser();
   const router = useRouter();
   let width = {
+    xs: useMediaQuery(theme.breakpoints.up('xs')),
     sm: useMediaQuery(theme.breakpoints.up('sm')),
     md: useMediaQuery(theme.breakpoints.up('md')),
     lg: useMediaQuery(theme.breakpoints.up('lg')),
@@ -29,6 +30,9 @@ export default function Post({ post, uaString }) {
   useEffect(() => {
     if(!user?.subscribed){
       Router.push(`/post/${router.query.postId}`);
+    }
+    if(!(user?.creator || new Date(post.publishDate) < new Date()) || !post) {
+      Router.push(`/404`);
     }
   }, [user]);
 
@@ -64,23 +68,17 @@ export async function getServerSideProps(context) {
   const forwarded = context.req.headers["x-forwarded-for"]
   let ip = forwarded ? forwarded.split(/, /)[0] : context.req.connection.remoteAddress;
   if(ip == '::1') ip = '76.169.76.173';
+
   const db = await getMongoDb();
   const post = await findPostById(db, context.params.postId, true, ip);
-  const desc = post?.people.map(( p, i) => {
-    p = p.replaceAll('_', ' ');
-    return(
-      `${i==0 ? 'with' : ''} ${p}${post.people.length > 2 ? ', ' : ''}${i === post.people.length - 2 ? ' and' : ''}`
-    );
-  });
+  const ogDesc = await formatOG(post);
+
   if(!post) {
     return {
       notFound: true,
     };
   }
-  post._id = String(post._id);
-  post.publishDate = date.format(new Date(post.publishDate), 'MMM DD, YYYY');
-  post.shootDate = date.format(new Date(post.shootDate), 'MMM DD, YYYY');
-  post.lastUpdated = date.format(new Date(post.lastUpdated), 'MMM DD, YYYY');
+
   return { props: {
     ip,
     post,
@@ -110,7 +108,7 @@ export async function getServerSideProps(context) {
       },
       {
         property: "og:description",
-        content: desc,
+        content: ogDesc,
         key: "ogdesc",
       },
       {

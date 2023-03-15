@@ -14,7 +14,6 @@ export default function Settings() {
   const [ user ] = useCurrentUser();
   const [ settings, setSettings ] = useContext(settingsContext);
   const [ sessions ] = useSessions();  
-
   
   useEffect(() => {
     if (!user) {
@@ -35,56 +34,56 @@ export default function Settings() {
 
       <Container maxWidth='md'>
 
-      <SettingsOutlinedIcon 
-        fontSize="large"
-        style={{ fontSize: '60px', margin: 'auto', display: 'block', marginTop: '7%' }} 
-        color="secondary"
-      />
+        <SettingsOutlinedIcon 
+          fontSize="large"
+          style={{ fontSize: '60px', margin: 'auto', display: 'block', marginTop: '7%' }} 
+          color="secondary"
+        />
 
-      <Typography variant="h6" style={{ marginBottom: 10 }} align="center" >
-      Account Settings
-      </Typography>
+        <Typography variant="h6" style={{ marginBottom: 10 }} align="center" >
+        Account Settings
+        </Typography>
 
         <Box my={2}>
-        <VerifyEmail user={user} />
+          <VerifyEmail user={user} />
 
-        <Accordion expanded={settings === 'subscriptions'} onChange={handleAccordion('subscriptions')}>
+          <Accordion expanded={settings === 'subscriptions'} onChange={handleAccordion('subscriptions')}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="manage subscriptions"
+                id="subscriptions-header"
+              >
+                <SettingsHeader header="Subscription" content={user?.epoch?.Customer?.Status || "No current subscriptions"}/>
+
+              </AccordionSummary>
+
+              <AccordionDetails>
+                <ManageSubscription />           
+              </AccordionDetails>
+
+          </Accordion>
+
+          <Accordion expanded={settings === 'devices'} onChange={handleAccordion('devices')}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
-              aria-controls="manage subscriptions"
-              id="subscriptions-header"
+              aria-controls="logged in devices"
+              id="devices-header"
             >
-              <SettingsHeader header="Subscription" content={user?.epoch?.Customer?.Status || "No current subscriptions"}/>
+              <SettingsHeader header="Devices" content={"Currently Logged in Devices"}/>
 
             </AccordionSummary>
 
             <AccordionDetails>
-              <ManageSubscription />           
+              {sessions ?
+              <Devices user={user} />
+              :
+              <Typography variant="body1" style={{ textAlign: 'center' }}>
+                No Devices Found.
+              </Typography>
+              } 
             </AccordionDetails>
 
-        </Accordion>
-
-        <Accordion expanded={settings === 'devices'} onChange={handleAccordion('devices')}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="logged in devices"
-            id="devices-header"
-          >
-            <SettingsHeader header="Devices" content={"Currently Logged in Devices"}/>
-
-          </AccordionSummary>
-
-          <AccordionDetails>
-            {sessions ?
-            <Devices user={user} />
-            :
-            <Typography variant="body1" style={{ textAlign: 'center' }}>
-              No Devices Found.
-            </Typography>
-            } 
-          </AccordionDetails>
-
-        </Accordion>
+          </Accordion>
 
           <Accordion expanded={settings === 'username'} onChange={handleAccordion('username')}>
             <AccordionSummary
@@ -143,7 +142,7 @@ export default function Settings() {
               id="delete-account-header"
             >
               <SettingsHeader header="Delete" content="Delete Your Account" />
-
+              
             </AccordionSummary>
 
             <AccordionDetails>
@@ -152,10 +151,9 @@ export default function Settings() {
 
             </AccordionDetails>
           </Accordion>
-
         </Box>
-    </Container>
-  </>
+      </Container>
+    </>
   );
   } else {
     return <></>;

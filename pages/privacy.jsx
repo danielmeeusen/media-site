@@ -9,7 +9,6 @@ import { useSite } from '@/lib/site/hooks';
 
 export default function record() {
   const [ site ]  = useSite();
-  console.log(site);
 
   return (
     <>

@@ -3,7 +3,6 @@ import Head from 'next/head';
 
 import { Typography, Container, Box } from '@material-ui/core';
 
-
 export default function Sent() {
 
   return (
