@@ -20,7 +20,7 @@ import Link from '@/components/shared/Link';
 
 const useStyles = makeStyles((theme) => ({
   username: {
-    fontSize: '26px', 
+    fontSize: '20px', 
     color: theme.palette.custom.seventyFive,
   },
   creator: {
@@ -64,7 +64,7 @@ export default function Account({ toggleDrawer }) {
       <>
         <ListItem onClick={ toggleDrawer(false) } >
           <ListItemText align="center">
-            <AccountCircleIcon style={{ fontSize: '120px', marginTop: '-35px'}} color="secondary" />
+            <AccountCircleIcon style={{ fontSize: '100px', marginTop: '-45px'}} color="secondary" />
           </ListItemText>
         </ListItem>
 

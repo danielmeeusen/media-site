@@ -19,6 +19,14 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  summary: {
+      margin: '0px -20px'
+  },
+  menuItem: {
+    '&:hover': {
+      borderRadius: '30px',
+    }
+  },
   link: {
     color: theme.palette.custom.seventyFive,
     fontSize: '16px',
@@ -26,15 +34,16 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     color: theme.palette.custom.seventyFive,
-    margin: '0px 0px -2px -30px',
+    margin: '0px 0px -5px -5px',
   }
 }));
 
-export default function ImagesAccordian({ post, desk }) {
+export default function ImagesAccordian({ post, width }) {
   const classes = useStyles();
   const [ imageViewer, setImageViewer ] = useContext(imageViewerContext || { accordian: false, veiwer: false });
   const { images } = post;
- 
+
+  
   return (
     <Accordion 
       className={classes.acordian} 
@@ -47,14 +56,14 @@ export default function ImagesAccordian({ post, desk }) {
         id="Images"
         className={classes.summary} 
       >
-        <ListItem button >
+        <ListItem button className={classes.menuItem} >
           <span className={classes.icon}> <ImageIcon /> </span>
           <span className={classes.link}> Images </span> 
         </ListItem>
       </AccordionSummary>
 
       <AccordionDetails style={{ margin: '0px -12px', padding: '0px' }}>
-        <ImagesList images={images} desk={desk} />
+        <ImagesList images={images} width={width} />
       </AccordionDetails>
     </Accordion>
   );

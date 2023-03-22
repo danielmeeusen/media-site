@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MobilePost({ post, desk }) {
   const classes = useStyles();
-  let { tags, publishDate, people, videoLength } = post;
+  let { tags, publishDate, people } = post;
   const title = post.title.replaceAll('_', ' ');
   const query = {
     type: 'more',
@@ -35,10 +35,11 @@ export default function MobilePost({ post, desk }) {
   query.keywords.push(post.title);
   
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" >
+      
       <MobileVideo post={ post } desk={desk} />
 
-      <Box mx={-.5}>
+      <Box style={{ margin: '0px -5px'}}>
         <div className={classes.title}>{ title }</div>
 
         <PostPeople post={post} />
@@ -48,9 +49,7 @@ export default function MobilePost({ post, desk }) {
         <PostSponsors post={post} />  
         
         <ImagesAccordian post={post} desk={desk} />
-      </Box>
 
-      <Box mx={-1}>
         <PostTags post={post} />    
       </Box>
 
@@ -58,7 +57,7 @@ export default function MobilePost({ post, desk }) {
         More Like this:
       </div>
 
-      <Box mx={-2} >
+      <Box style={{ margin: '0px -25px 0px -15px'}} >
         <Posts desk={desk} query={query} />
       </Box>
       

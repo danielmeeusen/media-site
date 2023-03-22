@@ -29,10 +29,12 @@ handler.post(
     if (!req.user) {
       return res.status(401).send('unauthenticated');
     }
-  const db = await getMongoDb();
-
-  const tag = await insertTag(db, req.body);
-    return res.json({ tag });
+    if (typeof req.body.name == 'string' ) {
+      const db = await getMongoDb();
+      const tag = await insertTag(db, req.body);
+      return res.json({ tag });
+    }
+    return res.status(400).send('input was not a string') 
 });
 
 handler.delete(
@@ -44,6 +46,7 @@ handler.delete(
     const db = await getMongoDb();
 
     const tag = await deleteTag(db, req.body);
+    
     return res.json({ tag });
 });
 

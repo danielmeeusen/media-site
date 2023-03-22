@@ -18,7 +18,6 @@ import { formatOG } from '@/lib/post';
 export default function Post({ post, uaString }) {
   const theme = useTheme();
   const [ user ] = useCurrentUser();
-  const router = useRouter();
   let width = {
     xs: useMediaQuery(theme.breakpoints.up('xs')),
     sm: useMediaQuery(theme.breakpoints.up('sm')),
@@ -29,12 +28,12 @@ export default function Post({ post, uaString }) {
   
   useEffect(() => {
     if(!user?.subscribed){
-      Router.push(`/post/${router.query.postId}`);
+      Router.push(`/post/${post._id}`);
     }
     if(!(user?.creator || new Date(post.publishDate) < new Date()) || !post) {
       Router.push(`/404`);
     }
-  }, [user]);
+  }, [user, post]);
 
   let ua;
   if (uaString) {
@@ -42,23 +41,21 @@ export default function Post({ post, uaString }) {
   } else {
     ua = parse(window.navigator.userAgent);
   }  
-  let desk = width.md;
 
   return (
     <>
       <Head>
         <title>{post.title.replaceAll('_', ' ')}</title>
       </Head>
+      
       {user?.creator &&
         <EditDialog />
+      }      
+      {width?.md &&
+        <DeskPost post={post} width={width} />
       }
-
-      {desk &&
-        <DeskPost post={post} desk={desk} />
-      }
-
-      {!desk && 
-        <MobilePost post={post} desk={desk} />
+      {!width.md && 
+        <MobilePost post={post} width={width} />
       }
       </>
   );

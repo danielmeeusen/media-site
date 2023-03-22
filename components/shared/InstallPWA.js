@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
   background: {
     backgroundColor: theme.palette.secondary.light,
     padding: "10px 30px 40px 30px",
-    borderRadius: "20px"
+    borderRadius: "30px"
   },  
   handle: {
     width: "100%",
@@ -25,8 +25,8 @@ export default function InstallPWA({ ua, displayMode }) {
   const [install, setInstall] = useState(localStorage.getItem('install') || false);
 
   const handleDismiss = () => {
-    setInstall(false);
-    localStorage.setItem('install', false);
+    setInstall(true);
+    localStorage.setItem('install', true);
   };
 
   if (!install && displayMode == 'standalone') {
@@ -74,7 +74,8 @@ export default function InstallPWA({ ua, displayMode }) {
 
         <Box align='center' my={5}>
           <Button 
-            style={{ borderRadius: '30px', width: '100%' }}
+            fullWidth
+            style={{ borderRadius: '30px' }}
             variant="contained" 
             color="primary" 
             onClick={handleDismiss}

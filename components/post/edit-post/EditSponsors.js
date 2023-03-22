@@ -24,8 +24,8 @@ export default function EditSponsor({ add }) {
   const sponsorNames = sponsors.data && sponsors?.data.map(e=>e.name);
 
   const editSponsor = async (e,v) => {
-    const item = formatTag(itemRef.current.value);
-    const name = formatTag(nameRef.current.value);
+    const item = await formatTag(itemRef.current.value);
+    const name = await formatTag(nameRef.current.value);
     const link = linkRef.current.value || url;
 
     if(item && name && link){
@@ -150,27 +150,28 @@ export default function EditSponsor({ add }) {
           freeSolo
           renderInput={(params) => (
             <TextField 
-            {...params} 
-            inputRef={nameRef}
-            label="Sponsor Name" 
-            variant="outlined" 
-          />
+              {...params} 
+              inputRef={nameRef}
+              label="Sponsor Name" 
+              variant="outlined" 
+            />
             )}
         />
       </Box>
 
       <Box mb={1}>
         <TextField
-          inputRef={linkRef}
-          variant="outlined"
-          fullWidth
-          id="sponsorLink"
-          label={url}
-          name="sponsorLink"
-        /> 
+            inputRef={linkRef}
+            variant="outlined"
+            fullWidth
+            id="sponsorLink"
+            label={url}
+            name="sponsorLink"
+          /> 
       </Box>
 
         <Button
+          style={{ borderRadius: '30px' }}
           onClick={editSponsor}
           fullWidth
           variant="contained"

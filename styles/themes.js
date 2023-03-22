@@ -4,8 +4,7 @@ export const darkTheme = createTheme({
   overrides: {
     MuiCssBaseline: {
       '@global': {
-        '*::-webkit-text-size-adjust': 'none',
-        
+        '*::-webkit-text-size-adjust': 'none',        
         '*::-webkit-scrollbar': {
           width: '10px'
         },

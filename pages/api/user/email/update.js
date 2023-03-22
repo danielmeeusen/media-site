@@ -39,7 +39,7 @@ handler.patch(
     const emailOptions = {
       title: 'Did you just change your email address?',
       username: req.user.username,
-      firstLine: `It looks like someone just changed from this email address to ${email}: <b>${process.env.WEB_URI}</b>.`,
+      firstLine: `It looks like someone just changed your email address for <b>${process.env.WEB_URI}</b> to ${email}.`,
       clickBelow: `If this was not you please follow the link below to change your email and/or password:`,
       link: `${process.env.WEB_URI}/settings`,
       button: 'CHANGE ACCOUNT SETTINGS'

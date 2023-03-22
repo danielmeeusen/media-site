@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 
 import { Box, Button, Grid, Chip, IconButton } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
@@ -13,15 +12,8 @@ import { loginDialogContext, mobileBottomContext, editDialogContext, editPostCon
 import Link from '@/components/shared/Link';
 import { subscribeLink } from '@/lib/user/utils';
 
-const useStyles = makeStyles((theme) => ({
-  actionIcon: {
-    marginLeft: '5px',
-    color: theme.palette.custom.seventyFive,
-  }
-}));
 
 export default function MobileVideo({ post }) {
-  const classes = useStyles();
   const [ user, { mutate } ] = useCurrentUser();
   const [ video, setVideo ] = useState(false);
   const [ loginDialog, setLoginDialog ] = useContext(loginDialogContext);
@@ -72,8 +64,8 @@ export default function MobileVideo({ post }) {
 
   return (
     <Box>
-      <Box mx={-2}>
-      <div style={{ position: 'relative', paddingTop: '56.25%' }} >
+      <Box style={{ margin: '0px -25px 0px -15px'}} >
+      <div style={{ position: 'relative', paddingTop: '56.75%' }} >
         <iframe 
           poster={ videoThumbnail }
           src={ video ? mainStream : promoStream }
@@ -85,34 +77,37 @@ export default function MobileVideo({ post }) {
       </div>
       </Box>
 
-      <Box mx={-.5} my={.5} >
+      <Box style={{ margin: '7px -10px 7px -5px' }} >
         <Grid container direction="row" justifyContent="space-between" alignItems="center">
           <Grid item>
-            {user?.subscribed ?
+            { user && !user.subscribed ?
               <Button 
-                variant="outlined" 
-                color="primary"
-                size="small"
-                startIcon={ user && <PlayArrowIcon /> }
-                onClick={ user ? toggleVideo : handleSignup }
-              >
-                {user? video ? 'trailer' : `${Math.ceil(videoLength/60)} min video` : 'signup to watch' }
-              </Button>
-              :
-              <Button 
+                style={{ borderRadius: '30px' }}
                 variant="outlined" 
                 color="primary"
                 size="small"
                 href={subscribe}
                 target="_blank"
-              >
-                subscribe to watch
+                startIcon={<PlayArrowIcon />}
+                >
+                  {`${Math.ceil(videoLength/60)} min video`}
+              </Button>
+              :
+              <Button 
+                style={{ borderRadius: '30px' }}
+                variant="outlined" 
+                color="primary"
+                size="small"
+                startIcon={<PlayArrowIcon /> }
+                onClick={ user ? toggleVideo : handleSignup }
+                >
+                  {video ? 'trailer' : `${Math.ceil(videoLength/60)} min video` }
               </Button>
             }
           </Grid>
 
           <Grid item>
-            <Box mt={-.5} >
+            <Box >
               {user && 
                 <Chip 
                   color="secondary" 
@@ -125,7 +120,7 @@ export default function MobileVideo({ post }) {
               { user?.subscribed && 
                 <Link href={mainDownload} download={`${title}.mp4`} target="_blank" >
                   <Chip 
-                    className={classes.actionIcon}
+                    style={{ marginLeft: '5px'}}
                     color="secondary" 
                     icon={<GetAppIcon />} 
                     label="Download"
@@ -137,21 +132,14 @@ export default function MobileVideo({ post }) {
               { user?.creator && 
                 <IconButton
                   onClick={handleEdit}
-                  style={{ margin: '0px -12px 0px -7px'}}
+                  style={{ padding: '3px', margin: '0px -15px 0px 0px' }}
                 >
                   <MoreVertIcon />
                 </IconButton>
-                // <Chip 
-                //   className={classes.actionIcon}
-                //   color="secondary" 
-                //   icon={  } 
-                //   // label="Edit"
-                //   // size="small"
-                // />
               }
             </Box>
           </Grid>
-          </Grid>
+        </Grid>
       </Box>
     </Box>
   );
