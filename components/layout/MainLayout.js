@@ -11,7 +11,7 @@ import { useCurrentUser } from '@/lib/user/hooks';
 import { fetcher } from '@/lib/fetch';
 
 import { MobileLayout, DeskLayout } from '@/components/layout'
-import { Warning, InstallPWA, DeviceDialog, Loading } from '@/components/shared';
+import { InstallPWA, DeviceDialog, Loading } from '@/components/shared';
 import LoginDialog from '@/components/navigation/login/LoginDialog';
 import UploadDialog from '@/components/post/edit-post/UploadDialog';
 
@@ -51,7 +51,6 @@ export default function MainLayout({ children, ip, uaString }) {
 
   return (
     <>
-      <Warning desk={desk} />
       <InstallPWA ua={ua} displayMode={displayMode} />
       <Loading open={loading} />
       {!user && <LoginDialog ua={ua} displayMode={displayMode} ip={ip} /> }
