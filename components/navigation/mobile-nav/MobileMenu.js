@@ -17,6 +17,7 @@ import { useCurrentUser } from '@/lib/user/hooks';
 import Sort from '@/components/navigation/shared/Sort';
 import MenuFilterList from '@/components/navigation/shared/MenuFilterList';
 import Copyright from '@/components/shared/Copyright';
+import HistoryIcon from '@material-ui/icons/History';
 
 const useStyles = makeStyles((theme) => ({
   drawerPaper: {
@@ -72,6 +73,8 @@ export default function MobileMenu() {
       
       <Sort toggleDrawer={toggleDrawer} />
 
+      <Divider/>    
+
       {user?.watchlist &&
         <Link href={'/results?type=watchlist'} >
           <ListItem button onClick={toggleDrawer(false)} className={classes.menuItem} >
@@ -86,6 +89,21 @@ export default function MobileMenu() {
       }
 
       <Divider/>    
+
+      {user?.history &&
+        <Link href={'/results?type=history'} >
+          <ListItem button className={classes.menuItem} >
+            <ListItemIcon>
+              <HistoryIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <span className={classes.link} > History </span> 
+            </ListItemText>
+          </ListItem>
+        </Link>
+      }
+
+      <Divider/>     
 
       <MenuFilterList toggleDrawer={toggleDrawer} filtername={'people'} />
       <MenuFilterList toggleDrawer={toggleDrawer} filtername={'tags'} />

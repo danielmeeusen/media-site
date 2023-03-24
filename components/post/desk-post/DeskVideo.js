@@ -76,6 +76,7 @@ export default function DeskVideo({ post }) {
         <iframe 
           poster={ videoThumbnail }
           src={ video ? mainStream : promoStream }
+          loading="lazy" 
           style={{ border: 'none', position: 'absolute', top: '0', height: '100%', width: '100%' }} 
           allow="*"
           allowFullScreen={true}

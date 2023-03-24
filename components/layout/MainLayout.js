@@ -38,14 +38,14 @@ export default function MainLayout({ children, ip, uaString }) {
   }  
   let desk = ua ? ua.isDesktop : width.md;
 
-  const epochCheck = async () => {
-    const updatedUser = await fetcher('/api/user/epoch');
+  const subscriptionCheck = async () => {
+    const updatedUser = await fetcher('/api/user/subscription');
     mutate(updatedUser);
   }
   
   if(user && !user?.founder){
-    if(user?.lastChecked === '' ||  new Date(user?.lastChecked) < new Date().getTime() - (24*60*60*1000) || user?.lastChecked === undefined) {
-      epochCheck();
+    if(user?.lastChecked === '' ||  new Date(user?.lastChecked) < new Date().getTime() - (8*60*60*1000) || user?.lastChecked === undefined) {
+      subscriptionCheck();
     }
   }
 

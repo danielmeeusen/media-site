@@ -1,15 +1,20 @@
 ## Next.js Media Site
 
-- This site is meant to test the functionality and scalability building a social media site with Next.js.
+  - This site is meant to test the functionality and scalability of using Next.js for a social/media site. 
 
 [Veiw demo on render](https://media-site-dev.onrender.com/)
 
+## Features:
+  - Hybrid Server Side and Client Side Rendering for optimum SEO and user privacy.
+  - Minimal overhead for scaling.
+  - Self managed authentication and session managment.
+  - Client IP and User Agent finger printing for better device tracking to increase account security. 
+
 ## Dependencies:
-- `
-- `@material-ui` - rapid component templating.
 - `react`, `react-dom` - v16.8 or higher required
 - `next` - v9.3 or above required for API Routes and data fetching.
 - `next-connect` - recommended if you want to use Express/Connect middleware and easier routing method.
+- `@material-ui` - rapid component templating.
 - `passport`, `passport-local` - authenticaiton.
 - `bcryptjs` - password hashing.
 - `next-session` - user session provider.
@@ -37,4 +42,5 @@
 Install by running `npm install` and run local develoment server with `npm run dev` after creating `.env.local` file.
 
 ## Deployment
-Currently configured for both Vercel and Heroku depolyment. 
+Currently configured for deployment on [Render](https://render.com/). 
+`npm run test` to run production build locally. 

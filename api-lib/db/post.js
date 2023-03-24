@@ -73,8 +73,8 @@ export async function findPostById(db, postId, members, userIp) {
   return post;
 }
 
-export async function findPostsById(db, user, sort, limit) {
-  const watchlist = user?.watchlist.map(e => ObjectId(e));
+export async function findPostsById(db, user, list, sort, limit) {
+  const array = list.map(e => ObjectId(e));
   return await db
     .collection('posts')
     .find({
@@ -83,7 +83,7 @@ export async function findPostsById(db, user, sort, limit) {
           $lte: new Date(),
         },
       }),
-    _id : { $in : watchlist } 
+    _id : { $in : array } 
     })
     .limit(limit)
     .toArray();
@@ -99,7 +99,9 @@ export async function findPosts(db, user, from, keywords, limit, type, not, sort
   } else if (type == 'search') {
     return searchPosts(db, user, from, keywords, limit, sort, index);
   } else if (type == 'watchlist') {
-    return await findPostsById(db, user, sort, limit);
+    return await findPostsById(db, user, user.watchlist, sort, limit);
+  } else if (type == 'history') {
+    return await findPostsById(db, user, user.history, sort, limit);
   } else if (type == 'more') {
     const same = await series(db, user, limit, not, code);
     const more = await morePosts(db, user, from, keywords, limit=(limit-same.length), sort, code, index);
@@ -108,6 +110,7 @@ export async function findPosts(db, user, from, keywords, limit, type, not, sort
     return await morePosts(db, user, from, keywords, limit, sort, code, index);
   } else {
   const featured = index==0 ? await featuredPost(db) : [];
+
   let posts =  await db
     .collection('posts')
     .find({

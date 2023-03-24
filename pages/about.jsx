@@ -56,10 +56,10 @@ export default function About() {
             Hybrid Server Side and Client Side Rendering for optimum SEO and user privacy.
           </li>
           <li>
-            Client IP and User Agent finger printing for better device tracking to increase account security. 
+            Self managed authentication and session managment.
           </li>
           <li>
-            Self managed authentication and session managment.
+            Client IP and User Agent finger printing for better device tracking to increase account security. 
           </li>
         </ul>
 

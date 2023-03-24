@@ -16,6 +16,8 @@ import { deskMenuContext, mobileBottomContext } from '@/lib/AppContext';
 import Sort from '@/components/navigation/shared/Sort';
 import MenuFilterList from '@/components/navigation/shared/MenuFilterList';
 import Copyright from '@/components/shared/Copyright';
+import HistoryIcon from '@material-ui/icons/History';
+
 
 const useStyles = makeStyles((theme) => ({
   drawerPaper: {
@@ -67,11 +69,9 @@ export default function DeskMenu() {
 
       <Sort toggleDrawer={toggleDrawer} />
 
-      <Divider/>   
-      
       {user?.watchlist &&
         <Link href={'/results?type=watchlist'} >
-          <ListItem button >
+          <ListItem button className={classes.menuItem} >
             <ListItemIcon>
               <PlaylistPlayIcon />
             </ListItemIcon>
@@ -81,6 +81,21 @@ export default function DeskMenu() {
           </ListItem>
         </Link>
       }
+
+      {user?.history &&
+        <Link href={'/results?type=history'} >
+          <ListItem button className={classes.menuItem} >
+            <ListItemIcon>
+              <HistoryIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <span className={classes.link} > History </span> 
+            </ListItemText>
+          </ListItem>
+        </Link>
+      }
+
+      <Divider/>  
 
       <MenuFilterList toggleDrawer={toggleDrawer} filtername={'people'} />
       <MenuFilterList toggleDrawer={toggleDrawer} filtername={'tags'} />
